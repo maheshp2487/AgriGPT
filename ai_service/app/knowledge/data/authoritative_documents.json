@@ -1,0 +1,138 @@
+{
+  "version": "2026.1",
+  "provenance_statement": "Curated from official public Package of Practices published by ICAR and State Agricultural Universities for farmer extension. Referenced under fair dealing with explicit statutory institutional attribution.",
+  "documents": [
+    {
+      "doc_id": "tnau_cpg_2020_paddy_ipm",
+      "institution": "Tamil Nadu Agricultural University (TNAU) & ICAR-IIRR",
+      "title": "Crop Production Guide: Agriculture 2020 — Paddy (Oryza sativa) Integrated Pest & Disease Management",
+      "publication_year": 2020,
+      "source_url": "https://agritech.tnau.ac.in/agriculture/agri_crop_paddy.html",
+      "crop": "paddy",
+      "target_pest": "Stem Borer (Scirpophaga incertulas)",
+      "target_topic": "stem_borer",
+      "chunks": [
+        {
+          "chunk_id": "tnau_paddy_sb_01",
+          "section": "Paddy Yellow Stem Borer Economic Threshold & Chemical Management",
+          "content_en": "Yellow Stem Borer causes dead hearts at vegetative stage and white ears at panicle emergence. Economic Threshold Level (ETL): 2 egg masses/m² or 10% dead hearts/white ears. Recommended management: Clip seedling leaf tips prior to transplanting to eliminate egg masses. If ETL is reached, spray Chlorantraniliprole 18.5% SC @ 150 ml/ha (3 ml / 10 L water) or Cartap Hydrochloride 50% SP @ 1000 g/ha in 500 L water per hectare. Pre-Harvest Interval (PHI) for Chlorantraniliprole is 47 days. Avoid unauthorized tank mixes with herbicides.",
+          "content_ta": "மஞ்சள் தண்டு துளைப்பான் பயிரின் வளர்ச்சி பருவத்தில் குருத்து காய்வதையும், கதிர் பருவத்தில் வெண்கதிர்களையும் உண்டாக்குகிறது. பொருளாதார சேத நிலை (ETL): 10% குருத்து காய்வு அல்லது 2 முட்டை குவியல்கள்/ச.மீ. மேலாண்மை: நாற்று நடும் முன் நுனிப்பகுதியை கிள்ளி முட்டைகளை அழிக்கவும். பொருளாதார சேத நிலையை எட்டும்போது, குளோரான்ட்ரானிலிப்ரோல் (Chlorantraniliprole 18.5% SC) 150 மி.லி/ஹெக்டர் (10 லிட்டர் தண்ணீருக்கு 3 மி.லி) அல்லது கார்டாப் ஹைட்ரோகுளோரைடு (Cartap Hydrochloride 50% SP) 1000 கிராம்/ஹெக்டர் 500 லிட்டர் தண்ணீரில் கலந்து தெளிக்கவும்.",
+          "content_hi": "धान का तना छेदक वानस्पतिक अवस्था में 'डेड हार्ट' और बाली निकलने पर 'सफेद बाली' पैदा करता है। आर्थिक क्षति स्तर (ETL): 10% डेड हार्ट या 2 अंडा समूह प्रति वर्ग मीटर। प्रबंधन: रोपाई से पहले पौध की पत्तियों के ऊपरी सिरे काट लें। क्षति स्तर पार होने पर क्लोरेंट्रानिलिप्रोल 18.5% SC @ 150 मिली/हेक्टेयर (3 मिली/10 लीटर पानी) या कार्टाप हाइड्रोक्लोराइड 50% SP @ 1000 ग्राम/हेक्टेयर का 500 लीटर पानी में छिड़काव करें।",
+          "content_te": "వరిలో పసుపు కాండం తొలిచే పురుగు పిలక దశలో 'చచ్చిన మొవ్వు' (Dead heart), చిరుపొట్ట దశలో 'తెల్ల కంకి' (White ear) కలిగిస్తుంది. ఆర్థిక నష్ట పరిమితి (ETL): 10% చచ్చిన మొవ్వులు. నివారణ: నాట్లు వేసే ముందు నారు చివర్లను తుంచండి. నష్ట పరిమితి దాటితే క్లోరాంట్రానిలిప్రోల్ 18.5% SC @ 150 మి.లీ/హెక్టారుకు (3 మి.లీ/10 లీ. నీటికి) లేదా కార్టాప్ హైడ్రోక్లోరైడ్ 50% SP @ 1000 గ్రా/హెక్టారుకు 500 లీటర్ల నీటిలో కలిపి పిచికారీ చేయండి.",
+          "content_kn": "ಭತ್ತದ ಹಳದಿ ಕಾಂಡ ಕೊರೆಯುವ ಹುಳು ಸಸಿ ಹಂತದಲ್ಲಿ 'ಒಣಗಿದ ಸುಳಿ' ಮತ್ತು ತೆನೆ ಹಂತದಲ್ಲಿ 'ಬೆಳ್ಳಕ್ಕಿ ತೆನೆ' ಉಂಟುಮಾಡುತ್ತದೆ. ಆರ್ಥಿಕ ನಷ್ಟದ ಮಿತಿ (ETL): 10% ಒಣಗಿದ ಸುಳಿ. ನಿರ್ವಹಣೆ: ನಾಟಿ ಮಾಡುವ ಮುನ್ನ ಸಸಿಗಳ ತುದಿಯನ್ನು ಚಿವುಟಿ. ನಷ್ಟದ ಮಿತಿ ಮೀರಿದಾಗ ಕ್ಲೋರಾಂಟ್ರಾನಿಲಿಪ್ರೋಲ್ 18.5% SC @ 150 ಮಿ.ಲೀ/ಹೆಕ್ಟೇರ್‌ಗೆ (10 ಲೀಟರ್ ನೀರಿಗೆ 3 ಮಿ.ಲೀ) ಅಥವಾ ಕಾರ್ಟಾಪ್ ಹೈಡ್ರೋಕ್ಲೋರೈಡ್ 50% SP @ 1000 ಗ್ರಾಂ/ಹೆಕ್ಟೇರ್‌ಗೆ ಸಿಂಪಡಿಸಿ.",
+          "content_ml": "നെല്ലിലെ മഞ്ഞ തണ്ടുതുരപ്പൻ പുഴു വളർച്ചാ ഘട്ടത്തിൽ 'കരിങ്കൂമ്പ്' അഥവാ ചത്ത കൂമ്പും കതിര് വരുമ്പോൾ 'വെള്ളക്കതിരും' ഉണ്ടാക്കുന്നു. സാമ്പത്തിക നഷ്ട പരിധി (ETL): 10% ചത്ത കൂമ്പ്. നിയന്ത്രണം: ഞാറ് നടുന്നതിന് മുൻപ് ഇലകളുടെ തുമ്പ് നുള്ളിക്കളയുക. കീടബാധ പരിധി കടന്നാൽ ക്ലോറാൻട്രാനിലിപ്രോൾ 18.5% SC @ 150 മി.ലി/ഹെക്ടറിന് അല്ലെങ്കിൽ കാർട്ടാപ് ഹൈഡ്രോക്ലോറൈഡ് 50% SP @ 1000 ഗ്രാം/ഹെക്ടറിന് തളിക്കുക.",
+          "approved_chemicals": ["Chlorantraniliprole 18.5% SC", "Cartap Hydrochloride 50% SP", "Flubendiamide 39.35% SC"],
+          "prohibited_chemicals": ["Endosulfan", "Phorate", "Methyl Parathion"]
+        },
+        {
+          "chunk_id": "tnau_paddy_blast_02",
+          "section": "Paddy Blast Disease (Magnaporthe oryzae) Management",
+          "content_en": "Blast disease produces spindle-shaped lesions with grey center and brown margin on leaves and causes neck blast. Management: Avoid excess application of nitrogenous fertilizers. Split nitrogen in 3–4 doses with balanced potassium. At initial disease onset, spray Tricyclazole 75% WP @ 500 g/ha (1 g/L water) or Azoxystrobin 18.2% + Difenoconazole 11.4% SC @ 1 ml/L water. Ensure proper coverage of foliage.",
+          "content_ta": "நெல் குலை நோய் இலைகளில் பழுப்பு நிற விளிம்புடன் கூடிய படகு வடிவ புள்ளிகளை ஏற்படுத்துகிறது. மேலாண்மை: அதிகப்படியான தழைச்சத்தை தவிர்க்கவும். பொட்டாஷ் உரத்தை சமச்சீராக இடவும். நோய் தென்பட்டவுடன் ட்ரைசைக்ளசோல் (Tricyclazole 75% WP) 500 கிராம்/ஹெக்டர் (1 கிராம்/லிட்டர் தண்ணீர்) அல்லது அசோக்ஸிஸ்ட்ரோபின் + டைபனோகொனசோல் 1 மி.லி/லிட்டர் தெளிக்கவும்.",
+          "content_hi": "धान का झुलसा (ब्लास्ट) रोग पत्तियों पर नाव के आकार के धब्बे बनाता है। प्रबंधन: अत्यधिक नाइट्रोजन उर्वरक के प्रयोग से बचें। रोग के प्रारंभिक लक्षण दिखने पर ट्राइसाइक्लाजोल 75% WP @ 500 ग्राम/हेक्टेयर (1 ग्राम/लीटर पानी) का छिड़काव करें।",
+          "content_te": "వరిలో అగ్గి తెగులు (బ్లాస్ట్) ఆకులపై పడవ ఆకారపు లేదా కదురు ఆకారపు మచ్చలను ఏర్పరుస్తుంది మరియు మెడ విరుపుకు కారణమవుతుంది. నివారణ: అధిక నత్రజని వాడకాన్ని తగ్గించండి. పొటాష్ ఎరువులను సమతుల్యంగా వేయండి. తెగులు ప్రారంభ దశలో ట్రైసైక్లాజోల్ 75% WP @ 500 గ్రా/హెక్టారుకు (1 గ్రా/లీటరు నీటికి) లేదా అజోక్సిస్ట్రోబిన్ + డైఫెనోకోనజోల్ 1 మి.లీ/లీటరు నీటిలో కలిపి పిచికారీ చేయండి.",
+          "content_kn": "ಭತ್ತದ ಬೆಂಕಿ ರೋಗ (ಬ್ಲಾಸ್ಟ್) ಎಲೆಗಳ ಮೇಲೆ ದೋಣಿ ಆಕಾರದ ಚುಕ್ಕೆಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ ಮತ್ತು ಕೊರಳು ಬೆಂಕಿ ರೋಗಕ್ಕೆ ಕಾರಣವಾಗುತ್ತದೆ. ನಿರ್ವಹಣೆ: ಅತಿಯಾದ ಸಾರಜನಕ ರಸಗೊಬ್ಬರ ಬಳಕೆಯನ್ನು ತಪ್ಪಿಸಿ. ಪೊಟ್ಯಾಶ್ ಸಮತೋಲನವಾಗಿ ಬಳಸಿ. ರೋಗದ ಆರಂಭಿಕ ಲಕ್ಷಣಗಳು ಕಂಡಾಗ ಟ್ರೈಸೈಕ್ಲಾಜೋಲ್ 75% WP @ 500 ಗ್ರಾಂ/ಹೆಕ್ಟೇರ್‌ಗೆ (1 ಗ್ರಾಂ/ಲೀಟರ್ ನೀರಿಗೆ) ಅಥವಾ ಅಜೋಕ್ಸಿಸ್ಟ್ರೋಬಿನ್ + ಡೈಫೆನೊಕೊನಾಜೋಲ್ 1 ಮಿ.ಲೀ/ಲೀಟರ್ ಸಿಂಪಡಿಸಿ.",
+          "content_ml": "നെല്ലിലെ കുലരോഗം അഥവാ ബ്ലാസ്റ്റ് രോഗം ഇലകളിൽ തോണിയുടെ ആകൃതിയിലുള്ള പുള്ളികൾ ഉണ്ടാക്കുകയും കതിര് ഒടിയാൻ കാരണമാവുകയും ചെയ്യുന്നു. നിയന്ത്രണം: അമിതമായ നൈട്രജൻ വളപ്രയോഗം ഒഴിവാക്കുക. പൊട്ടാഷ് തുല്യമായി നൽകുക. രോഗലക്ഷണങ്ങൾ കണ്ടുതുടങ്ങുമ്പോൾ ട്രൈസൈക്ലാസോൾ 75% WP @ 500 ഗ്രാം/ഹെക്ടറിന് (1 ഗ്രാം/ലിറ്റർ വെള്ളത്തിന്) അല്ലെങ്കിൽ അസോക്സിസ്ട്രോബിൻ + ഡൈഫെനൊകൊണസോൾ 1 മി.ലി/ലിറ്റർ തളിക്കുക.",
+          "approved_chemicals": ["Tricyclazole 75% WP", "Azoxystrobin 18.2% + Difenoconazole 11.4% SC"],
+          "prohibited_chemicals": ["Endosulfan"]
+        }
+      ]
+    },
+    {
+      "doc_id": "icar_iimr_2021_maize_faw",
+      "institution": "ICAR - Indian Institute of Maize Research (IIMR) & TNAU",
+      "title": "Integrated Pest Management Guidelines for Fall Armyworm (Spodoptera frugiperda) in Maize",
+      "publication_year": 2021,
+      "source_url": "https://iimr.icar.gov.in/fall-armyworm-management/",
+      "crop": "maize",
+      "target_pest": "Fall Armyworm (Spodoptera frugiperda)",
+      "target_topic": "fall_armyworm",
+      "chunks": [
+        {
+          "chunk_id": "iimr_maize_faw_01",
+          "section": "Maize Fall Armyworm Early Stage Biological & Chemical Management",
+          "content_en": "Fall Armyworm larvae feed inside the central whorl of maize creating papery windows and heavy frass. Early stage (seedling to 30 days): Release egg parasitoid Trichogramma pretiosum @ 50,000/acre. Spray Azadirachtin 1500 ppm (Neem oil) @ 5 ml/L water. At mid-whorl stage (>10% damaged plants): Apply Chlorantraniliprole 18.5% SC @ 0.4 ml/L water or Emamectin Benzoate 5% SG @ 0.4 g/L water directly into the plant whorls using a knapsack sprayer with hollow cone nozzle. Never spray indiscriminately on flowering tassels.",
+          "content_ta": "மக்காச்சோள படைப்புழு (Fall Armyworm) பயிரின் குருத்துப் பகுதியில் துளைத்து சாணக் கழிவுகளை விட்டு செல்கிறது. ஆரம்ப கட்டத்தில்: டிரைக்கோகிரம்மா பிரிட்டோசம் ஒட்டுண்ணி அட்டை ஏக்கருக்கு 50,000 என்ற அளவில் கட்டவும். வேப்ப எண்ணெய் (Azadirachtin 1500 ppm) 5 மி.லி/லிட்டர் தெளிக்கவும். சேதம் 10% தாண்டினால் எமாமெக்டின் பென்சோயேட் (Emamectin Benzoate 5% SG) 0.4 கிராம்/லிட்டர் அல்லது குளோரான்ட்ரானிலிப்ரோல் 0.4 மி.லி/லிட்டர் மருந்தை நேராக பயிரின் சுழி/குருத்துக்குள் படுமாறு தெளிக்கவும்.",
+          "content_hi": "मक्का का फाल आर्मीवर्म (सैनिक कीट) पत्तियों और केंद्रीय गोभ को खाकर गंभीर नुकसान पहुंचाता है। प्रारंभिक अवस्था: ट्राइकोग्रामा परजीवी 50,000 प्रति एकड़ छोड़ें व नीम तेल 5 मिली/लीटर छिड़कें। 10% से अधिक नुकसान होने पर एमामेक्टिन बेंजोएट 5% SG @ 0.4 ग्राम/लीटर या क्लोरेंट्रानिलिप्रोल 18.5% SC @ 0.4 मिली/लीटर का सीधा गोभ में छिड़काव करें।",
+          "content_te": "మొక్కజొన్న కత్తెర పురుగు (Fall Armyworm) పిలకలలో మరియు సుడులలో చేరి తీవ్ర నష్టం కలిగిస్తుంది. ప్రారంభ దశలో: ట్రైకోగ్రామా పరాన్నజీవులను ఎకరాకు 50,000 వదలండి మరియు వేపనూనె (Azadirachtin 1500 ppm) 5 మి.లీ/లీటరు నీటికి పిచికారీ చేయండి. నష్టం 10% దాటితే ఎమామెక్టిన్ బెంజోయేట్ 5% SG @ 0.4 గ్రా/లీటరు లేదా క్లోరాంట్రానిలిప్రోల్ 18.5% SC @ 0.4 మి.లీ/లీటరు నీటిలో కలిపి నేరుగా సుడిలో పడేలా పిచికారీ చేయండి.",
+          "content_kn": "ಮೆಕ್ಕೆಜೋಳದ ಸೈನಿಕ ಹುಳು (Fall Armyworm) ಸುಳಿಯ ಒಳಗೆ ಸೇರಿಕೊಂಡು ಎಲೆಗಳನ್ನು ತಿಂದು ಭಾರಿ ನಷ್ಟ ಉಂಟುಮಾಡುತ್ತದೆ. ಆರಂಭಿಕ ಹಂತದಲ್ಲಿ: ಟ್ರೈಕೋಡರ್ಮಾ/ಟ್ರೈಕೊಗ್ರಾಮಾ ಪರಾವಲಂಬಿಗಳನ್ನು ಎಕರೆಗೆ 50,000 ಬಿಡಿ ಮತ್ತು ಬೇವಿನ ಎಣ್ಣೆ 5 ಮಿ.ಲೀ/ಲೀಟರ್ ಸಿಂಪಡಿಸಿ. ಹಾನಿ 10% ಮೀರಿದರೆ ಎಮಾಮೆಕ್ಟಿನ್ ಬೆಂಜೊಯೆಟ್ 5% SG @ 0.4 ಗ್ರಾಂ/ಲೀಟರ್ ಅಥವಾ ಕ್ಲೋರಾಂಟ್ರಾನಿಲಿಪ್ರೋಲ್ 0.4 ಮಿ.ಲೀ/ಲೀಟರ್ ನೇರವಾಗಿ ಸಸ್ಯದ ಸುಳಿಗೆ ಸಿಂಪಡಿಸಿ.",
+          "content_ml": "മക്കച്ചോളത്തിലെ പട്ടാളപ്പുഴു (Fall Armyworm) ചെടിയുടെ കൂമ്പിൽ തുരന്നുകയറി കാഷ്ഠം നിറയ്ക്കുകയും ഇലകൾ തിന്നുനശിപ്പിക്കുകയും ചെയ്യുന്നു. ആദ്യഘട്ടത്തിൽ: ട്രൈക്കോഗ്രാമ 50,000/ഏക്കറിന് വിടുക, വേപ്പെണ്ണ 5 മി.ലി/ലിറ്റർ തളിക്കുക. കീടബാധ 10% കൂടിയാൽ എമാമെക്റ്റിൻ ബെൻസോയേറ്റ് 5% SG @ 0.4 ഗ്രാം/ലിറ്റർ അല്ലെങ്കിൽ ക്ലോറാൻട്രാനിലിപ്രോൾ 0.4 മി.ലി/ലിറ്റർ കൂമ്പിലേക്ക് നേരിട്ട് തളിക്കുക.",
+          "approved_chemicals": ["Emamectin Benzoate 5% SG", "Chlorantraniliprole 18.5% SC", "Spinetoram 11.7% SC"],
+          "prohibited_chemicals": ["Endosulfan", "Monocrotophos", "Phorate"]
+        }
+      ]
+    },
+    {
+      "doc_id": "icar_dgr_2022_groundnut_tikka",
+      "institution": "ICAR - Directorate of Groundnut Research (DGR) & TNAU",
+      "title": "Groundnut Cultivation Practices: Disease & Nutrient Management",
+      "publication_year": 2022,
+      "source_url": "https://dgr.icar.gov.in/production-technology/",
+      "crop": "groundnut",
+      "target_pest": "Tikka Leaf Spot (Cercospora) & Gypsum Application",
+      "target_topic": "tikka_disease_and_nutrition",
+      "chunks": [
+        {
+          "chunk_id": "dgr_groundnut_tikka_01",
+          "section": "Groundnut Tikka Leaf Spot Management and Pegging Gypsum Requirement",
+          "content_en": "Tikka disease (Early and Late Leaf Spot) causes dark brown circular spots with yellow halos leading to severe defoliation. Spray Tebuconazole 25.9% EC @ 1–1.5 ml/L water or Mancozeb 75% WP @ 2 g/L water at 40 and 55 days after sowing. Gypsum Application: Apply Gypsum @ 400 kg/ha (or 200 kg/acre) at 40–45 days after sowing (flowering/pegging stage) close to the root zone followed by earthing up. Calcium in gypsum is essential for pod filling and preventing empty shells ('pops').",
+          "content_ta": "நிலக்கடலை டிக்கா இலைப்புள்ளி நோய் இலைகளில் மஞ்சள் வளையத்துடன் கூடிய பழுப்பு நிற புள்ளிகளை ஏற்படுத்தி இலை உதிர்வை உண்டாக்குகிறது. மேலாண்மை: டெபுகோனசோல் (Tebuconazole 25.9% EC) 1–1.5 மி.லி/லிட்டர் அல்லது மேன்கோசெப் 2 கிராம்/லிட்டர் தண்ணீர் கலந்து விதைத்த 40 மற்றும் 55 நாட்களில் தெளிக்கவும். ஜிப்சம் இடுதல்: பூக்கும் பருவத்தில் (விதைத்த 40-45 நாட்களில்) ஹெக்டேருக்கு 400 கிலோ (ஏக்கருக்கு 200 கிலோ) ஜிப்சம் இட்டு மண் அணைக்க வேண்டும். இது நிலக்கடலை காய்கள் திரட்சியாக அமைய இன்றியமையாதது.",
+          "content_hi": "मूंगफली का टिक्का रोग पत्तियों पर गहरे भूरे गोल धब्बे बनाता है जिससे पत्तियां झड़ने लगती हैं। प्रबंधन: टेबुकोनाजोल 25.9% EC @ 1-1.5 मिली/लीटर या मैंकोजेब 75% WP @ 2 ग्राम/लीटर का छिड़काव करें। जिप्सम प्रयोग: बुवाई के 40-45 दिन बाद (फूल आने पर) 400 किग्रा/हेक्टेयर जिप्सम पौधों की जड़ों के पास डालकर मिट्टी चढ़ाएं। यह दानों के भराव के लिए अत्यंत आवश्यक है।",
+          "content_te": "వేరుశనగలో టిక్కా ఆకుమచ్చ తెగులు ఆకులపై పసుపు వలయంతో కూడిన ముదురు గోధుమ రంగు మచ్చలను కలిగిస్తుంది. నివారణ: టెబుకోనజోల్ 25.9% EC @ 1–1.5 మి.లీ/లీటరు లేదా మాంకోజెబ్ 75% WP @ 2 గ్రా/లీటరు నీటిలో కలిపి విత్తిన 40 మరియు 55 రోజులకు పిచికారీ చేయండి. జిప్సం వేయుట: పూత మరియు ఊడలు దిగే దశలో (విత్తిన 40-45 రోజులకు) హెక్టారుకు 400 కిలోలు (ఎకరాకు 200 కిలోలు) జిప్సం వేసి మట్టి ఎగదోయాలి. ఇది కాయలు గట్టిపడటానికి మరియు పొల్లు కాయలు నివారించడానికి అత్యవసరం.",
+          "content_kn": "ಕಡಲೆಕಾಯಿಯ ಟಿಕಾ ಎಲೆ ಚುಕ್ಕೆ ರೋಗವು ಹಳದಿ ಅಂಚಿನ ಗಾಢ ಕಂದು ಚುಕ್ಕೆಗಳನ್ನು ಉಂಟುಮಾಡಿ ಎಲೆ ಉದುರುವಿಕೆಗೆ ಕಾರಣವಾಗುತ್ತದೆ. ನಿರ್ವಹಣೆ: ಟೆಬುಕೊನಜೋಲ್ 25.9% EC @ 1–1.5 ಮಿ.ಲೀ/ಲೀಟರ್ ಅಥವಾ ಮ್ಯಾಂಕೋಜೆಬ್ 2 ಗ್ರಾಂ/ಲೀಟರ್ ಸಿಂಪಡಿಸಿ. ಜಿಪ್ಸಮ್ ಬಳಕೆ: ಹೂಬಿಡುವ ಹಂತದಲ್ಲಿ (ಬಿತ್ತಿದ 40-45 ದಿನಗಳಲ್ಲಿ) ಹೆಕ್ಟೇರ್‌ಗೆ 400 ಕೆಜಿ (ಎಕರೆಗೆ 200 ಕೆಜಿ) ಜಿಪ್ಸಮ್ ಬುಡಕ್ಕೆ ಹಾಕಿ ಮಣ್ಣು ಏರಿಸಬೇಕು. ಇದು ಕಾಯಿಗಳು ಗಟ್ಟಿಯಾಗಲು ಅತ್ಯಗತ್ಯ.",
+          "content_ml": "നിലക്കടലയിലെ ടിക്ക ഇലപ്പുള്ളി രോഗം ഇലകളിൽ മഞ്ഞ വലയത്തോടുകൂടിയ തവിട്ടുനിറത്തിലുള്ള പുള്ളികൾ ഉണ്ടാക്കി ഇലപൊഴിച്ചിലിന് കാരണമാകുന്നു. നിയന്ത്രണം: ടെബുകൊനാസോൾ 25.9% EC @ 1–1.5 മി.ലി/ലിറ്റർ അല്ലെങ്കിൽ മാങ്കോസെബ് 2 ഗ്രാം/ലിറ്റർ തളിക്കുക. ജിപ്സം പ്രയോഗം: പൂവിടുന്ന ഘട്ടത്തിൽ (വിത്ത് നട്ട് 40-45 ദിവസങ്ങളിൽ) ഹെക്ടറിന് 400 കി.ഗ്രാം (ഏക്കറിന് 200 കി.ഗ്രാം) ജിപ്സം ഇട്ട് മണ്ണ് കൂട്ടിക്കൊടുക്കണം. ഇത് കായ്കൾ നിറയുന്നതിനും പതിര് ഒഴിവാക്കുന്നതിനും അത്യന്താപേക്ഷിതമാണ്.",
+          "approved_chemicals": ["Tebuconazole 25.9% EC", "Mancozeb 75% WP", "Hexaconazole 5% EC"],
+          "prohibited_chemicals": ["Endosulfan"]
+        }
+      ]
+    },
+    {
+      "doc_id": "icar_cicr_2021_cotton_pbw",
+      "institution": "ICAR - Central Institute for Cotton Research (CICR)",
+      "title": "Integrated Pest Management for Cotton Bollworms and Sucking Pests",
+      "publication_year": 2021,
+      "source_url": "https://cicr.icar.gov.in/cotton-ipm/",
+      "crop": "cotton",
+      "target_pest": "Pink Bollworm (Pectinophora gossypiella)",
+      "target_topic": "pink_bollworm",
+      "chunks": [
+        {
+          "chunk_id": "cicr_cotton_pbw_01",
+          "section": "Cotton Pink Bollworm Monitoring & Threshold Spraying",
+          "content_en": "Pink Bollworm damages squares and young green bolls. Monitoring: Install 5 delta traps with gossyplure pheromone per hectare at 45 days after sowing. ETL: Catch of 8 moths per trap per day for 3 consecutive days or 10% infested green bolls. Management: If ETL is crossed, spray Profenophos 50% EC @ 2000 ml/ha or Emamectin Benzoate 5% SG @ 220 g/ha in 500 L water. Maintain non-Bt cotton refuge borders. Note: Monocrotophos is strictly prohibited for use on companion or intercropped food crops.",
+          "content_ta": "பருத்தி இளஞ்சிவப்பு காய்ப்புழு பூ மொட்டுகள் மற்றும் காய்களை சேதப்படுத்துகிறது. கண்காணிப்பு: ஏக்கருக்கு 2 இனக்கவர்ச்சி பொறிகளை வைக்கவும். சேத நிலை: ஒரு பொறிக்கு நாளொன்றுக்கு 8 அந்துப்பூச்சிகள் 3 நாட்களுக்கு தொடர்ந்து விழுந்தால், அல்லது 10% காய்கள் தாக்கப்பட்டால், புரோபெனோபாஸ் (Profenophos 50% EC) 2 லிட்டர்/ஹெக்டர் அல்லது எமாமெக்டின் பென்சோயேட் 220 கிராம்/ஹெக்டர் 500 லிட்டர் நீரில் கலந்து தெளிக்கவும்.",
+          "content_hi": "कपास की गुलाबी सुंडी (Pink Bollworm) फूलों और हरे टिंडों को गंभीर नुकसान पहुंचाती है। निगरानी: 45 दिन बाद 5 फेरोमोन ट्रैप प्रति हेक्टेयर लगाएं। क्षति स्तर: 8 पतंगे प्रति ट्रैप प्रति दिन लगातार 3 दिन तक आने पर प्रोफेनोफॉस 50% EC @ 2 लीटर/हेक्टेयर या एमामेक्टिन बेंजोएट 5% SG @ 220 ग्राम/हेक्टेयर का छिड़काव करें।",
+          "content_te": "ప్రత్తిలో గులాబీ రంగు కాయ తొలుచు పురుగు పూమొగ్గలు మరియు కాయలను ఆశించి నష్టం చేస్తుంది. పర్యవేక్షణ: విత్తిన 45 రోజుల తర్వాత హెక్టారుకు 5 లింగాకర్షక బుట్టలను అమర్చండి. ఆర్థిక నష్ట పరిమితి: వరుసగా 3 రోజులు రోజుకు 8 పురుగులు పడితే, ప్రొఫెనోఫాస్ 50% EC @ 2 లీటర్లు/హెక్టారుకు లేదా ఎమామెక్టిన్ బెంజోయేట్ 5% SG @ 220 గ్రా/హెక్టారుకు 500 లీటర్ల నీటిలో కలిపి పిచికారీ చేయండి.",
+          "content_kn": "ಹತ್ತಿಯ ಗುಲಾಬಿ ಕಾಯಿ ಕೊರೆಯುವ ಹುಳು ಹೂಮೊಗ್ಗುಗಳು ಮತ್ತು ಹಸಿರು ಕಾಯಿಗಳಿಗೆ ಹಾನಿ ಮಾಡುತ್ತದೆ. ಕಣ್ಗಾವಲು: ಬಿತ್ತಿದ 45 ದಿನಗಳ ನಂತರ ಹೆಕ್ಟೇರ್‌ಗೆ 5 ಫೆರೋಮೋನ್ ಬಲೆಗಳನ್ನು ಅಳವಡಿಸಿ. ನಷ್ಟದ ಮಿತಿ: ದಿನಕ್ಕೆ 8 ಪತಂಗಗಳು ಬಿದ್ದರೆ, ಪ್ರೊಫೆನೋಫಾಸ್ 50% EC @ 2 ಲೀಟರ್/ಹೆಕ್ಟೇರ್‌ಗೆ ಅಥವಾ ಎಮಾಮೆಕ್ಟಿನ್ ಬೆಂಜೊಯೆಟ್ 220 ಗ್ರಾಂ/ಹೆಕ್ಟೇರ್‌ಗೆ 500 ಲೀಟರ್ ನೀರಿನಲ್ಲಿ ಬೆರೆಸಿ ಸಿಂಪಡಿಸಿ.",
+          "content_ml": "പരുത്തിയിലെ കായ്തുരപ്പൻ പുഴു മൊട്ടുകളെയും പച്ചക്കായ്കളെയും തുരന്ന് നശിപ്പിക്കുന്നു. നിരീക്ഷണം: ഹെക്ടറിന് 5 ഫെറോമോൺ കെണികൾ സ്ഥാപിക്കുക. നഷ്ട പരിധി കടന്നാൽ പ്രൊഫെനോഫോസ് 50% EC @ 2 ലിറ്റർ/ഹെക്ടറിന് അല്ലെങ്കിൽ എമാമെക്റ്റിൻ ബെൻസോയേറ്റ് 220 ഗ്രാം/ഹെക്ടറിന് 500 ലിറ്റർ വെള്ളത്തിൽ തളിക്കുക.",
+          "approved_chemicals": ["Profenophos 50% EC", "Emamectin Benzoate 5% SG", "Chlorantraniliprole 18.5% SC"],
+          "prohibited_chemicals": ["Endosulfan", "Phorate"]
+        }
+      ]
+    },
+    {
+      "doc_id": "icar_iisr_2022_soybean_ymv",
+      "institution": "ICAR - Indian Institute of Soybean Research (IISR)",
+      "title": "Package of Practices for Soybean: Insect Pests & Disease Management",
+      "publication_year": 2022,
+      "source_url": "https://iisrindore.icar.gov.in/package-of-practices/",
+      "crop": "soybean",
+      "target_pest": "Yellow Mosaic Virus & Whitefly Vector",
+      "target_topic": "yellow_mosaic_virus",
+      "chunks": [
+        {
+          "chunk_id": "iisr_soybean_ymv_01",
+          "section": "Soybean Yellow Mosaic Virus Vector Control and Seed Treatment",
+          "content_en": "Yellow Mosaic Virus is transmitted by whiteflies (Bemisia tabaci) and causes bright yellow discoloration on leaves and stunted growth. Preventive: Seed treatment with Thiamethoxam 30% FS @ 10 ml/kg seed before sowing protects against early sucking pests for 25–30 days. Yellow sticky traps @ 10–12 traps/acre help monitor and mass-trap whiteflies. If whitefly population exceeds 5–10 adults/plant, spray Thiamethoxam 25% WG @ 100 g/ha or Acetamiprid 20% SP @ 100 g/ha in 500 L water.",
+          "content_ta": "சோயாபீன் மஞ்சள் தேமல் நோய் வெள்ளை ஈக்கள் மூலம் பரவுகிறது. தடுப்பு முறை: விதைப்பதற்கு முன் தயாமீதாக்சம் (Thiamethoxam 30% FS) 10 மி.லி/கிலோ விதை என்ற விகிதத்தில் விதை நேர்த்தி செய்யவும். ஏக்கருக்கு 10 மஞ்சள் நிற ஒட்டும் பொறிகளை வைக்கவும். வெள்ளை ஈக்களின் எண்ணிக்கை அதிகமாக இருந்தால் தயாமீதாக்சம் 25% WG 100 கிராம்/ஹெக்டர் 500 லிட்டர் தண்ணீரில் கலந்து தெளிக்கவும்.",
+          "content_hi": "सोयाबीन का पीला मोज़ेक वायरस सफेद मक्खी (Whitefly) द्वारा फैलता है जिससे पत्तियां पीली पड़ जाती हैं। रोकथाम: बुवाई से पहले थायमेथोक्सम 30% FS @ 10 मिली/किग्रा बीज से बीजोपचार करें। प्रति एकड़ 10-12 पीले चिपचिपे कार्ड लगाएं। सफेद मक्खी का प्रकोप होने पर थायमेथोक्सम 25% WG @ 100 ग्राम/हेक्टेयर का छिड़काव करें।",
+          "content_te": "సోయాబీన్ పంటలో పసుపు పచ్చ తెగులు తెల్ల దోమల ద్వారా వ్యాపిస్తుంది. నివారణ: విత్తే ముందు థయామెథోక్సామ్ 30% FS @ 10 మి.లీ/కిలో విత్తనానికి విత్తన శుద్ధి చేయండి. ఎకరాకు 10-12 పసుపు జిగురు అట్టలను అమర్చండి. తెల్ల దోమల ఉధృతి ఉంటే థయామెథోక్సామ్ 25% WG @ 100 గ్రా/హెక్టారుకు 500 లీటర్ల నీటిలో కలిపి పిచికారీ చేయండి.",
+          "content_kn": "ಸೋಯಾಬೀನ್ ಹಳದಿ ನಂಜು ರೋಗವು ಬಿಳಿ ನೊಣಗಳಿಂದ ಹರಡುತ್ತದೆ. ತಡೆಗಟ್ಟುವಿಕೆ: ಬಿತ್ತನೆಗೆ ಮುನ್ನ ಥಯಾಮೆಥಾಕ್ಸಮ್ 30% FS @ 10 ಮಿ.ಲೀ/ಕೆಜಿ ಬೀಜೋಪಚಾರ ಮಾಡಿ. ಎಕರೆಗೆ 10 ಹಳದಿ ಅಂಟು ಬಲೆಗಳನ್ನು ಅಳವಡಿಸಿ. ಬಿಳಿ ನೊಣಗಳ ಸಂಖ್ಯೆ ಹೆಚ್ಚಿದ್ದರೆ ಥಯಾಮೆಥಾಕ್ಸಮ್ 25% WG @ 100 ಗ್ರಾಂ/ಹೆಕ್ಟೇರ್‌ಗೆ ಸಿಂಪಡಿಸಿ.",
+          "content_ml": "സോയാബീനിലെ മഞ്ഞളിപ്പ് രോഗം വെള്ളീച്ചകൾ വഴി പകരുന്നു. പ്രതിരോധം: വിത്തുവിതയ്ക്കുന്നതിന് മുൻപ് തയാമെത്തോക്സാം 30% FS @ 10 മി.ലി/കിലോഗ്രാം വിത്ത് എന്ന തോതിൽ വിത്തുചികിത്സ നടത്തുക. ഏക്കറിന് 10 മഞ്ഞക്കെണികൾ സ്ഥാപിക്കുക. വെള്ളീച്ചയുടെ ശല്യം കൂടിയാൽ തയാമെത്തോക്സാം 25% WG @ 100 ഗ്രാം/ഹെക്ടറിന് 500 ലിറ്റർ വെള്ളത്തിൽ തളിക്കുക.",
+          "approved_chemicals": ["Thiamethoxam 30% FS", "Thiamethoxam 25% WG", "Acetamiprid 20% SP"],
+          "prohibited_chemicals": ["Endosulfan", "Methyl Parathion"]
+        }
+      ]
+    }
+  ]
+}

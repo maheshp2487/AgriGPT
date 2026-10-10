@@ -1,0 +1,93 @@
+{
+  "version": "2026.1",
+  "authority": "Ministry of Agriculture & Farmers Welfare (MoA&FW), Government of India",
+  "schemes": [
+    {
+      "scheme_id": "pmfby_crop_insurance",
+      "name_en": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+      "name_ta": "பிரதம மந்திரி பயிர் காப்பீட்டுத் திட்டம் (PMFBY)",
+      "name_hi": "प्रधानमंत्री फसल बीमा योजना (PMFBY)",
+      "name_te": "ప్రధాన మంత్రి ఫసల్ బీమా యోజన (PMFBY)",
+      "name_kn": "ಪ್ರಧಾನ ಮಂತ್ರಿ ಫಸಲ್ ಬಿಮಾ ಯೋಜನೆ (PMFBY)",
+      "name_ml": "പ്രധാനമന്ത്രി ഫസൽ ബീമാ യോജന (PMFBY)",
+      "official_portal": "https://pmfby.gov.in",
+      "helpline": "14447 (National Toll-Free Crop Insurance Helpline)",
+      "premium_rates": {
+        "kharif_food_oilseeds": "2.0% of Sum Insured",
+        "rabi_food_oilseeds": "1.5% of Sum Insured",
+        "commercial_horticultural": "5.0% of Sum Insured"
+      },
+      "pmfby_rules": {
+        "localized_calamities": {
+          "perils": ["hailstorm", "landslide", "inundation", "cloudburst", "natural_fire"],
+          "timeframe_hours": 72,
+          "channel": "Crop Insurance App (geotagged photos) or Portal pmfby.gov.in or Toll-Free 14447",
+          "assessment_method": "Individual farm-level survey within 10 days by Joint Assessment Committee",
+          "mandatory_documents": ["Geotagged damage photo", "Survey / Khasra number", "Bank passbook copy", "Sowing certificate / Aadhaar"]
+        },
+        "post_harvest_losses": {
+          "condition": "Cut-and-spread condition in field for drying",
+          "max_days_from_harvest": 14,
+          "perils": ["cyclone", "cyclonic_rains", "unseasonal_rains"],
+          "timeframe_hours": 72
+        },
+        "widespread_perils": {
+          "perils": ["drought", "dry_spell", "regional_flood", "pest_epidemic"],
+          "assessment_method": "Area Approach based on Notified Insurance Unit (Gram Panchayat / Block)",
+          "settlement_mechanism": "Direct benefit transfer based on State Crop Cutting Experiments (CCE). Individual 72-hour notice NOT applicable."
+        }
+      }
+    },
+    {
+      "scheme_id": "pm_kisan_income_support",
+      "name_en": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+      "name_ta": "பிரதம மந்திரி கிசான் சம்மான் நிதி (PM-KISAN)",
+      "name_hi": "प्रधानमंत्री किसान सम्मान निधि (PM-KISAN)",
+      "name_te": "పీఎం-కిసాన్ సమ్మాన్ నిధి (PM-KISAN)",
+      "name_kn": "ಪಿಎಂ-ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ (PM-KISAN)",
+      "name_ml": "പിഎം-കിസാൻ സമ്മാൻ നിധി (PM-KISAN)",
+      "official_portal": "https://pmkisan.gov.in",
+      "helpline": "155261 / 011-24300606",
+      "benefit_amount": "₹6,000 per year in 3 equal installments of ₹2,000 directly via DBT",
+      "mandatory_prerequisites": [
+        "Aadhaar eKYC completed on pmkisan.gov.in (OTP or Biometric / Facial recognition)",
+        "Land record seeding verified in State Revenue records (Bhulekh / Patta / Chitta)",
+        "Bank account seeded with Aadhaar and NPCI DBT-enabled"
+      ],
+      "statutory_exclusions": [
+        "Institutional landholders",
+        "Current or former holders of constitutional posts",
+        "Serving or retired government / public sector employees",
+        "Income tax payers in last assessment year"
+      ]
+    },
+    {
+      "scheme_id": "soil_health_card",
+      "name_en": "Soil Health Card Scheme (SHC)",
+      "name_ta": "மண் வள அட்டைத் திட்டம் (Soil Health Card)",
+      "name_hi": "मृदा स्वास्थ्य कार्ड योजना",
+      "name_te": "భూసార పరీక్ష కార్డు పథకం",
+      "name_kn": "ಮಣ್ಣು ಆರೋಗ್ಯ ಕಾರ್ಡ್ ಯೋಜನೆ",
+      "name_ml": "മണ്ണ് ആരോഗ്യ കാർഡ് പദ്ധതി",
+      "official_portal": "https://soilhealth.dac.gov.in",
+      "cycle_years": 3,
+      "tested_parameters": 12,
+      "parameters_list": ["N", "P", "K", "S", "Zn", "Fe", "Cu", "Mn", "Bo", "pH", "EC", "OC"],
+      "benefit_summary": "Issues custom macro and micronutrient dosage recommendations per crop to prevent excess urea application and reduce cultivation costs by 15-25%."
+    },
+    {
+      "scheme_id": "smam_farm_mechanization",
+      "name_en": "Sub-Mission on Agricultural Mechanization (SMAM)",
+      "name_ta": "வேளாண் இயந்திரமயமாக்கல் துணை இயக்கம் (SMAM)",
+      "name_hi": "कृषि यंत्रीकरण उप-मिशन (SMAM)",
+      "name_te": "వ్యవసాయ యాంత్రీకరణ ఉప-మిషన్ (SMAM)",
+      "name_kn": "ಕೃಷಿ ಯಾಂತ್ರೀಕರಣ ಉಪ-ಯೋಜನೆ (SMAM)",
+      "name_ml": "കാർഷിക യന്ത്രവൽക്കരണ ഉപമിഷൻ (SMAM)",
+      "official_portal": "https://agrimachinery.nic.in",
+      "subsidies": {
+        "individual_farmers": "40% to 50% subsidy (up to 50% for SC/ST/Small/Marginal/Women farmers) on tractors, rotavators, power tillers, drone sprayers",
+        "custom_hiring_centers": "Up to 40% financial assistance (up to ₹10–24 Lakh) for FPOs, cooperative societies, and rural entrepreneurs to establish Custom Hiring Centers (CHC)"
+      }
+    }
+  ]
+}

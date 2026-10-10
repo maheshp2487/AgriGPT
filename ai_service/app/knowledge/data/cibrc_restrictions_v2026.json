@@ -1,0 +1,99 @@
+{
+  "version": "2026.1",
+  "authority": "Central Insecticides Board & Registration Committee (CIBRC), Directorate of Plant Protection, Quarantine & Storage, Ministry of Agriculture & Farmers Welfare, Government of India",
+  "statutory_framework": "The Insecticides Act, 1968 & Subsequent Gazette Notifications",
+  "last_verified_date": "2026-01-15",
+  "restrictions": [
+    {
+      "chemical_name": "Endosulfan",
+      "synonyms": ["Thiodan", "Benzoepin", "எண்டோசல்பான்", "எண்டோஸல்ஃபான்", "एंडोसल्फान", "ఎండోసల్ఫాన్", "ಎಂಡೋಸಲ್ಫಾನ್", "എൻഡോസൾഫാൻ"],
+      "regulatory_status": "BANNED_FOR_MANUFACTURE_IMPORT_USE",
+      "gazette_notification": "Hon'ble Supreme Court of India Order dated 13.05.2011 in WP(C) No. 213/2011; CIBRC Notification 2011",
+      "prohibited_crops": ["ALL_CROPS"],
+      "statutory_remark_en": "Endosulfan is strictly BANNED in India across all crops by order of the Hon'ble Supreme Court. Manufacture, sale, distribution, and use are illegal under the Insecticides Act, 1968.",
+      "statutory_remark_ta": "எண்டோசல்பான் (Endosulfan) இந்தியாவில் அனைத்து பயிர்களுக்கும் உச்ச நீதிமன்ற உத்தரவுப்படி முழுமையாக தடை செய்யப்பட்டுள்ளது. இதன் உற்பத்தி, விற்பனை மற்றும் பயன்பாடு சட்டவிரோதமானது.",
+      "statutory_remark_hi": "माननीय सर्वोच्च न्यायालय के आदेशानुसार भारत में सभी फसलों पर एंडोसल्फान (Endosulfan) पूरी तरह से प्रतिबंधित है। इसका निर्माण, बिक्री और उपयोग कीटनाशक अधिनियम, 1968 के तहत अवैध है।",
+      "statutory_remark_te": "గౌరవ సుప్రీం కోర్టు ఆదేశాల ప్రకారం భారతదేశంలో అన్ని పంటలపై ఎండోసల్ఫాన్ (Endosulfan) పూర్తిగా నిషేధించబడింది. దీని తయారీ, అమ్మకం మరియు వాడకం కీటకనాశినుల చట్టం 1968 ప్రకారం చట్టవిరుద్ధం.",
+      "statutory_remark_kn": "ಮಾನ್ಯ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯದ ಆದೇಶದಂತೆ ಭಾರತದಲ್ಲಿ ಎಲ್ಲಾ ಬೆಳೆಗಳಿಗೂ ಎಂಡೋಸಲ್ಫಾನ್ (Endosulfan) ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ. ಇದರ ಬಳಕೆ ಮತ್ತು ಮಾರಾಟ ಕಾನೂನುಬಾಹಿರ.",
+      "statutory_remark_ml": "ബഹുമാനപ്പെട്ട സുപ്രീം കോടതി ഉത്തരവ് പ്രകാരം ഇന്ത്യയിൽ എല്ലാ വിളകൾക്കും എൻഡോസൾഫാൻ (Endosulfan) പൂർണ്ണമായും നിരോധിച്ചിരിക്കുന്നു. ഇതിന്റെ ഉപയോഗം നിയമവിരുദ്ധമാണ്."
+    },
+    {
+      "chemical_name": "Monocrotophos",
+      "synonyms": ["Nuvacron", "Monocil", "மோனோகுரோட்டோபாஸ்", "मोनोक्रोटोफॉस", "మోనోక్రోటోఫాస్", "ಮೊನೊಕ್ರೋಟೊಫಾಸ್", "ಮೊನೊಕ್ರೋಟೋಫಾಸ್", "മോണോക്രോട്ടോഫോസ്"],
+      "regulatory_status": "RESTRICTED_USE",
+      "gazette_notification": "Government of India S.O. 704(E) dated 20.08.1994 & Subsequent Gazette Notifications",
+      "prohibited_crops": ["vegetables", "fruits"],
+      "statutory_remark_en": "Monocrotophos is strictly BANNED on vegetables and fruits due to severe residual toxicity. It is restricted strictly to permitted field crops like cotton with mandatory personal protective equipment.",
+      "statutory_remark_ta": "மோனோகுரோட்டோபாஸ் (Monocrotophos) காய்கறிகள் மற்றும் பழப்பயிர்களில் பயன்படுத்த முற்றிலும் தடை செய்யப்பட்டுள்ளது. நச்சுத்தன்மை எச்சங்கள் காரணமாக காய்கறிகளில் இதனை ஒருபோதும் பயன்படுத்தக்கூடாது.",
+      "statutory_remark_hi": "अत्यधिक अवशिष्ट विषाक्तता के कारण सब्जियों और फलों पर मोनोक्रोटोफॉस (Monocrotophos) का उपयोग पूरी तरह प्रतिबंधित है। सब्जियों पर इसका प्रयोग कभी न करें।",
+      "statutory_remark_te": "తీవ్రమైన అవశేష విషపూరితం కారణంగా కూరగాయలు మరియు పండ్ల తోటలలో మోనోక్రోటోఫాస్ (Monocrotophos) వాడకం పూర్తిగా నిషేధించబడింది.",
+      "statutory_remark_kn": "ಹೆಚ್ಚಿನ ಉಳಿಕೆ ವಿಷಕಾರಿ ಪರಿಣಾಮದಿಂದಾಗಿ ತರಕಾರಿ ಮತ್ತು ಹಣ್ಣಿನ ಬೆಳೆಗಳಲ್ಲಿ ಮೊನೊಕ್ರೋಟೊಫಾಸ್ (Monocrotophos) ಬಳಕೆ ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.",
+      "statutory_remark_ml": "വിഷാംശത്തിന്റെ തീവ്രത കാരണം പച്ചക്കറികളിലും പഴവർഗ്ഗങ്ങളിലും മോണോക്രോട്ടോഫോസ് (Monocrotophos) ഉപയോഗിക്കുന്നത് പൂർണ്ണമായും നിരോധിച്ചിരിക്കുന്നു."
+    },
+    {
+      "chemical_name": "Phorate",
+      "synonyms": ["Thimet", "Phorate 10G", "போரேட்", "ஃபோரேட்", "फोरेट", "ఫోరేట్", "ಫೋರೇಟ್", "ഫോറേറ്റ്"],
+      "regulatory_status": "BANNED_FOR_MANUFACTURE_IMPORT_USE",
+      "gazette_notification": "Government of India S.O. 3951(E) dated 08.08.2018 (Banning of Insecticides Order)",
+      "prohibited_crops": ["ALL_CROPS"],
+      "statutory_remark_en": "Phorate is BANNED for manufacture, import, and use in India under S.O. 3951(E) due to extreme acute oral and dermal mammalian toxicity.",
+      "statutory_remark_ta": "ஃபோரேட் / போரேட் (Phorate / Thimet) அதிக நச்சுத்தன்மை காரணமாக அரசாணையின்படி இந்தியாவில் பயன்பாடு மற்றும் விற்பனைக்கு முழுமையாக தடை செய்யப்பட்டுள்ளது.",
+      "statutory_remark_hi": "फोरेट (Phorate) अत्यधिक विषाक्तता के कारण भारत सरकार के आदेश S.O. 3951(E) के तहत पूरी तरह प्रतिबंधित है।",
+      "statutory_remark_te": "అత్యంత తీవ్రమైన విషపూరిత స్వభావం కారణంగా భారత ప్రభుత్వ గెజిట్ S.O. 3951(E) ప్రకారం ఫోరేట్ (Phorate) భారతదేశంలో పూర్తిగా నిషేధించబడింది.",
+      "statutory_remark_kn": "ಅತಿಯಾದ ವಿಷಕಾರಿ ಗುಣದಿಂದಾಗಿ ಭಾರತ ಸರ್ಕಾರದ ಅಧಿಸೂಚನೆ S.O. 3951(E) ಅಡಿಯಲ್ಲಿ ಫೋರೇಟ್ (Phorate) ಅನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.",
+      "statutory_remark_ml": "അതീവ വിഷാംശമുള്ളതിനാൽ കേന്ദ്ര സർക്കാർ വിജ്ഞാപനം S.O. 3951(E) പ്രകാരം ഫോറേറ്റ് (Phorate) ഇന്ത്യയിൽ പൂർണ്ണമായും നിരോധിച്ചിരിക്കുന്നു."
+    },
+    {
+      "chemical_name": "Methyl Parathion",
+      "synonyms": ["Metacid", "Folidol", "மீத்தைல் பாரத்தியான்", "மெத்தில் பாரத்தியான்", "मिथाइल पैराथियान", "మిథైల్ పారాథియాన్", "ಮಿಥೈಲ್ ಪ್ಯಾರಾಥಿಯಾನ್", "മീഥൈൽ പാരാത്തിയോൺ"],
+      "regulatory_status": "BANNED_FOR_MANUFACTURE_IMPORT_USE",
+      "gazette_notification": "Government of India S.O. 3951(E) dated 08.08.2018",
+      "prohibited_crops": ["ALL_CROPS"],
+      "statutory_remark_en": "Methyl Parathion is completely BANNED in India under the Banning of Insecticides Order due to extreme hazards to human health and non-target organisms.",
+      "statutory_remark_ta": "மெத்தில் பாரத்தியான் / மீத்தைல் பாரத்தியான் (Methyl Parathion) மனித ஆரோக்கியம் மற்றும் சூழலுக்கு ஆபத்தானது என்பதால் இந்தியாவில் முழுமையாக தடை செய்யப்பட்டுள்ளது.",
+      "statutory_remark_hi": "मिथाइल पैराथियान (Methyl Parathion) मानव स्वास्थ्य और पर्यावरण के लिए अत्यधिक हानिकारक होने के कारण भारत में पूरी तरह प्रतिबंधित है।",
+      "statutory_remark_te": "మానవ ఆరోగ్యానికి తీవ్ర హానికరం కావడంతో మిథైల్ పారాథియాన్ (Methyl Parathion) భారతదేశంలో పూర్తిగా నిషేధించబడింది.",
+      "statutory_remark_kn": "ಮಾನವನ ಆರೋಗ್ಯಕ್ಕೆ ಅಪಾಯಕಾರಿಯಾಗಿರುವುದರಿಂದ ಮಿಥೈಲ್ ಪ್ಯಾರಾಥಿಯಾನ್ (Methyl Parathion) ಅನ್ನು ಭಾರತದಲ್ಲಿ ಸಂಪೂರ್ಣವಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.",
+      "statutory_remark_ml": "മനുഷ്യന്റെ ആരോഗ്യത്തിന് അതീവ ദോഷകരമായതിനാൽ മീഥൈൽ പാരാത്തിയോൺ (Methyl Parathion) ഇന്ത്യയിൽ പൂർണ്ണമായും നിരോധിച്ചിരിക്കുന്നു."
+    },
+    {
+      "chemical_name": "Dichlorvos",
+      "synonyms": ["DDVP", "Nuvan", "டைக்ளோர்வோஸ்", "डाइक्लोरवोस", "డైక్లోరోవాస్", "ಡೈಕ್ಲೋರ್ವೋಸ್", "ഡൈക്ലോർവോസ്"],
+      "regulatory_status": "BANNED_FOR_MANUFACTURE_IMPORT_USE",
+      "gazette_notification": "Government of India Banning of Insecticides Order 2020 / Final Gazette Notification",
+      "prohibited_crops": ["ALL_CROPS"],
+      "statutory_remark_en": "Dichlorvos (DDVP) is BANNED for use in agriculture due to high vapor inhalation toxicity and risk to farm workers.",
+      "statutory_remark_ta": "டைக்ளோர்வோஸ் (DDVP / Dichlorvos) காற்றில் பரவும் அதிக நச்சுத்தன்மை காரணமாக விவசாயத்தில் பயன்படுத்த தடை செய்யப்பட்டுள்ளது.",
+      "statutory_remark_hi": "डाइक्लोरवोस (Dichlorvos / DDVP) अत्यधिक वाष्प विषाक्तता के कारण कृषि उपयोग के लिए प्रतिबंधित है।",
+      "statutory_remark_te": "అధిక ఆవిరి విషపూరితం కారణంగా డైక్లోరోవాస్ (DDVP) వ్యవసాయంలో వాడకంపై నిషేధం విధించబడింది.",
+      "statutory_remark_kn": "ಅತಿಯಾದ ಉಸಿರಾಟದ ವಿಷತ್ವದ ಕಾರಣದಿಂದಾಗಿ ಡೈಕ್ಲೋರ್ವೋಸ್ (DDVP) ಕೃಷಿ ಬಳಕೆಗೆ ನಿಷೇಧಿಸಲಾಗಿದೆ.",
+      "statutory_remark_ml": "വാതക രൂപത്തിലുള്ള ഉയർന്ന വിഷാംശം കാരണം ഡൈക്ലോർവോസ് (DDVP) കാർഷികാവശ്യങ്ങൾക്ക് നിരോധിച്ചിരിക്കുന്നു."
+    },
+    {
+      "chemical_name": "Carbofuran",
+      "synonyms": ["Furadan", "Carbofuran 3G", "கார்போஃபுரான்", "कार्बोफ्यूरान", "కార్బోఫ్యూరాన్", "ಕಾರ್ಬೋಫ್ಯುರಾನ್", "കാർബോഫ്യൂറാൻ"],
+      "regulatory_status": "RESTRICTED_USE",
+      "gazette_notification": "CIBRC Restricted Formulations Schedule",
+      "prohibited_crops": ["vegetables"],
+      "statutory_remark_en": "Carbofuran is strictly restricted and prohibited from foliar spraying and use on commercial vegetable crops.",
+      "statutory_remark_ta": "கார்போஃபுரான் (Carbofuran / Furadan) காய்கறி பயிர்களில் பயன்படுத்த தடை மற்றும் கடுமையான கட்டுப்பாடுகளுக்கு உட்பட்டது.",
+      "statutory_remark_hi": "कार्बोफ्यूरान (Carbofuran) का उपयोग सब्जियों पर प्रतिबंधित है और यह केवल सीमित फसलों के लिए नियंत्रित है।",
+      "statutory_remark_te": "కూరగాయల పంటలలో కార్బోఫ్యూరాన్ (Carbofuran) వాడకం పూర్తిగా నిషేధించబడింది.",
+      "statutory_remark_kn": "ತರಕಾರಿ ಬೆಳೆಗಳಲ್ಲಿ ಕಾರ್ಬೋಫ್ಯುರಾನ್ (Carbofuran) ಬಳಕೆ ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.",
+      "statutory_remark_ml": "പച്ചക്കറി വിളകളിൽ കാർബോഫ്യൂറാൻ (Carbofuran) ഉപയോഗം കർശനമായി നിരോധിച്ചിരിക്കുന്നു."
+    },
+    {
+      "chemical_name": "Paraquat Dichloride",
+      "synonyms": ["Gramoxone", "பாராக்குவாட்", "पैराक्वाट", "పారాక్వాట్", "ಪ್ಯಾರಾಕ್ವಾಟ್", "പാരാക്വാറ്റ്"],
+      "regulatory_status": "RESTRICTED_USE",
+      "gazette_notification": "CIBRC Restricted Herbicide Guidelines",
+      "prohibited_crops": ["broadcasting_on_standing_crops"],
+      "statutory_remark_en": "Paraquat Dichloride is a restricted non-selective herbicide. Sale requires farmer endorsement; banned from use without specialized hood sprayers or on standing food crops.",
+      "statutory_remark_ta": "பாராக்குவாட் டைகுளோரைடு (Paraquat) கடுமையான கட்டுப்பாடுகளுக்கு உட்பட்டது; நிற்கும் பயிர்களின் மீது தெளிக்கக்கூடாது.",
+      "statutory_remark_hi": "पैराक्वाट डाइक्लोराइड (Paraquat) एक नियंत्रित खरपतवारनाशक है, इसे खड़ी खाद्य फसलों पर सीधे छिड़कना प्रतिबंधित है।",
+      "statutory_remark_te": "పారాక్వాట్ (Paraquat) ఒక నియంత్రిత కలుపు మందు, నిలబడిన పంటలపై నేరుగా వాడటం నిషేధం.",
+      "statutory_remark_kn": "ಪ್ಯಾರಾಕ್ವಾಟ್ (Paraquat) ನಿಯಂತ್ರಿತ ಕಳೆನಾಶಕವಾಗಿದ್ದು, ನಿಂತ ಬೆಳೆಗಳ ಮೇಲೆ ನೇರವಾಗಿ ಸಿಂಪಡಿಸುವುದು ನಿಷೇಧಿಸಲಾಗಿದೆ.",
+      "statutory_remark_ml": "പാരാക്വാറ്റ് (Paraquat) നിയന്ത്രിത കളനാശിനിയാണ്, നിൽക്കുന്ന ഭക്ഷ്യവിളകളിൽ നേരിട്ട് തളിക്കുന്നത് നിരോധിച്ചിരിക്കുന്നു."
+    }
+  ]
+}

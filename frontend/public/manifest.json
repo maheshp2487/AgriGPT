@@ -1,0 +1,19 @@
+{
+  "name": "AgriGPT — Multilingual Agricultural Intelligence",
+  "short_name": "AgriGPT",
+  "description": "Verified agricultural intelligence for Indian farmers and FPOs: live AGMARKNET mandi prices, agromet spraying forecasts, ICAR agronomy, and PMFBY crop insurance.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F8FAF5",
+  "theme_color": "#15803d",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["agriculture", "business", "productivity"],
+  "lang": "en"
+}
