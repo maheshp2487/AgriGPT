@@ -91,6 +91,21 @@ h1, h2, h3, h4, .font-heading {
   line-height: 1.70;
 }
 
+.font-punjabi, [lang="pa"] {
+  font-family: "Noto Sans Gurmukhi", "Raavi", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.70;
+}
+
+.font-marathi, [lang="mr"] {
+  font-family: "Noto Sans Devanagari", "Mangal", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.65;
+}
+
+.font-bengali, [lang="bn"] {
+  font-family: "Noto Sans Bengali", "Vrinda", "Shonar Bangla", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.70;
+}
+
 /* Accessible minimum tap targets (WCAG 2.1 AA) */
 .touch-target {
   min-height: 48px;

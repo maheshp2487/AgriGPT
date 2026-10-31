@@ -1,4 +1,4 @@
-export type Locale = 'en' | 'ta' | 'hi' | 'te' | 'kn' | 'ml';
+export type Locale = 'en' | 'ta' | 'hi' | 'te' | 'kn' | 'ml' | 'pa' | 'mr' | 'bn';
 
 export interface LanguageOption {
   code: Locale;
@@ -50,5 +50,26 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
     englishName: 'Malayalam',
     flag: '🌴',
     script: 'Malayalam',
+  },
+  {
+    code: 'pa',
+    nativeName: 'ਪੰਜਾਬੀ',
+    englishName: 'Punjabi',
+    flag: '🌾',
+    script: 'Gurmukhi',
+  },
+  {
+    code: 'mr',
+    nativeName: 'मराठी',
+    englishName: 'Marathi',
+    flag: '🚜',
+    script: 'Devanagari',
+  },
+  {
+    code: 'bn',
+    nativeName: 'বাংলা',
+    englishName: 'Bengali',
+    flag: '🌱',
+    script: 'Bengali',
   },
 ];

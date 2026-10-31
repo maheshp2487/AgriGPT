@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { VoiceInputButton } from './VoiceInputButton';
 import { SpeakButton } from './SpeakButton';
+import { FarmerAvatar } from './FarmerAvatar';
 
 interface Citation {
   chunk_id: string;
@@ -76,6 +77,10 @@ export function ChatAssistant({
 }: ChatAssistantProps) {
   const { t, locale } = useLanguage();
 
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [avatarType, setAvatarType] = useState<'farmer' | 'scientist'>('farmer');
+
   const getWelcomeContent = () => {
     switch (locale) {
       case 'ta':
@@ -88,6 +93,12 @@ export function ChatAssistant({
         return 'ನಮಸ್ಕಾರ! ನಾನು ಅಗ್ರಿ ಜಿಪಿಟಿ (AgriGPT). ಬೆಳೆ ನಿರ್ವಹಣೆ, ಗೊಬ್ಬರ, ಕೀಟ ನಿಯಂತ್ರಣ, ಮಾರುಕಟ್ಟೆ ದರ ಮತ್ತು ಹವಾಮಾನದ ಕುರಿತು ಅಧಿಕೃತ ಮಾಹಿತಿಗಾಗಿ ನನ್ನನ್ನು ಕೇಳಿ.';
       case 'ml':
         return 'നമസ്കാരം! ഞാൻ അഗ്രി ജിപിടി (AgriGPT). വിള പരിപാലനം, വളം, കീടനിയന്ത്രണം, വിപണി വില, കാലാവസ്ഥ എന്നിവയെക്കുറിച്ചുള്ള ഔദ്യോഗിക വിവരങ്ങൾക്ക് എന്നോട് ചോദിക്കാം.';
+      case 'pa':
+        return 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! ਮੈਂ ਐਗਰੀ ਜੀਪੀਟੀ (AgriGPT) ਹਾਂ। ਫਸਲ ਉਤਪਾਦਨ, ਖਾਦ, ਕੀਟ ਪ੍ਰਬੰਧਨ, ਮੰਡੀ ਭਾਅ ਅਤੇ ਮੌਸਮ ਬਾਰੇ ਅਧਿਕਾਰਤ ਜਾਣਕਾਰੀ ਲਈ ਮੈਨੂੰ ਪੁੱਛੋ।';
+      case 'mr':
+        return 'नमस्कार! मी ॲग्री जीपीटी (AgriGPT) आहे. पीक उत्पादन, खत, कीड नियंत्रण, बाजारभाव आणि हवामानाबद्दल अधिकृत माहितीसाठी मला विचारा.';
+      case 'bn':
+        return 'নমস্কার! আমি এগ্রি জিপিটি (AgriGPT)। ফসল উৎপাদন, সার, কীট দমন, মান্ডি দর এবং আবহাওয়া সংক্রান্ত সরকারি নির্দেশিকার জন্য আমাকে জিজ্ঞাসা করুন।';
       default:
         return 'Welcome! I am AgriGPT, your multilingual agricultural advisor grounded in official ICAR & SAU Package of Practices. Ask me about crop protection, mandi prices, or weather suitability.';
     }
@@ -166,6 +177,30 @@ export function ChatAssistant({
           { label: 'തുള്ളിനന സബ്‌സിഡി', query: 'തുള്ളിനന സമ്പ്രദായത്തിന്റെ ഗുണങ്ങളും സബ്‌സിഡിയും?' },
           { label: 'എൻഡോസൾഫാൻ സുരക്ഷ?', query: 'നെല്ലിൽ എൻഡോസൾഫാൻ ഉപയോഗിക്കാമോ?', crop: 'paddy' },
         ];
+      case 'pa':
+        return [
+          { label: 'ਝੋਨੇ ਦਾ ਤਣਾ ਛੇਦਕ', query: 'ਝੋਨੇ ਦੇ ਤਣਾ ਛੇਦਕ ਦਾ ਪ੍ਰਬੰਧਨ ਕਿਵੇਂ ਕਰੀਏ?', crop: 'paddy' },
+          { label: 'ਕਣਕ ਵਿੱਚ ਪੀਲੀ ਕੁੰਗੀ', query: 'ਕਣਕ ਵਿੱਚ ਪੀਲੀ ਕੁੰਗੀ ਦੀ ਰੋਕਥਾਮ ਕਿਵੇਂ ਕਰੀਏ?', crop: 'wheat' },
+          { label: 'ਮਿੱਟੀ ਟੈਸਟ ਤੇ NPK', query: 'ਮਿੱਟੀ ਸਿਹਤ ਕਾਰਡ ਅਤੇ ਸੰਤੁਲਿਤ NPK ਖਾਦਾਂ ਦੀ ਵਰਤੋਂ?' },
+          { label: 'ਟਪਕਾ ਸਿੰਚਾਈ ਸਬਸਿਡੀ', query: 'ਟਪਕਾ ਸਿੰਚਾਈ ਦੇ ਲਾਭ ਅਤੇ ਸਰਕਾਰੀ ਸਬਸਿਡੀ?' },
+          { label: 'ਐਂਡੋਸਲਫਾਨ ਸੁਰੱਖਿਆ?', query: 'ਕੀ ਝੋਨੇ ਲਈ ਐਂਡੋਸਲਫਾਨ ਸੁਰੱਖਿਅਤ ਹੈ?', crop: 'paddy' },
+        ];
+      case 'mr':
+        return [
+          { label: 'भातातील खोडकिडा', query: 'भातातील खोडकिडीचे नियंत्रण कसे करावे?', crop: 'paddy' },
+          { label: 'कापूस बोंडअळी व्यवस्थापन', query: 'कापसावरील गुलाबी बोंडअळीचे व्यवस्थापन कसे करावे?', crop: 'cotton' },
+          { label: 'माती परीक्षण व NPK', query: 'माती आरोग्य पत्रिका आणि संतुलित NPK खतांचा वापर कसा करावा?' },
+          { label: 'ठिबक सिंचन अनुदान', query: 'ठिबक सिंचनाचे फायदे आणि शासकीय अनुदान?' },
+          { label: 'एंडोसल्फान सुरक्षितता?', query: 'भातासाठी एंडोसल्फानचे प्रमाण काय आहे?', crop: 'paddy' },
+        ];
+      case 'bn':
+        return [
+          { label: 'ধানের মাজরা পোকা দমন', query: 'ধানের মাজরা পোকা নিয়ন্ত্রণের উপায় কী?', crop: 'paddy' },
+          { label: 'টমেটো পাতা কোঁকড়ানো রোগ', query: 'টমেটোর পাতা কোঁকড়ানো রোগ ও ফলছিদ্রকারী পোকা দমন?', crop: 'tomato' },
+          { label: 'মাটি পরীক্ষা ও NPK সার', query: 'মৃত্তিকা স্বাস্থ্য কার্ড ও সুষম NPK সারের ব্যবহার?' },
+          { label: 'ড্রিপ সেচ ও সরকারি ভর্তুকি', query: 'ড্রিপ সেচের সুবিধা ও সরকারি ভর্তুকি কীভাবে পাবেন?' },
+          { label: 'এন্ডোসালফান সতর্কতা?', query: 'ধানের জন্য এন্ডোসালফান মাত্রা কী?', crop: 'paddy' },
+        ];
       default:
         return [
           { label: 'Paddy stem borer control', query: 'How to manage yellow stem borer in paddy?', crop: 'paddy' },
@@ -222,6 +257,30 @@ export function ChatAssistant({
           { id: 'rubber', name: 'റബ്ബർ (Rubber)', icon: '🌳' },
           { id: 'tomato', name: 'തക്കാളി (Tomato)', icon: '🍅' },
         ];
+      case 'pa':
+        return [
+          { id: 'paddy', name: 'ਝੋਨਾ (Paddy)', icon: '🌾' },
+          { id: 'wheat', name: 'ਕਣਕ (Wheat)', icon: '🌾' },
+          { id: 'cotton', name: 'ਨਰਮਾ/ਕਪਾਹ (Cotton)', icon: '☁️' },
+          { id: 'maize', name: 'ਮੱਕੀ (Maize)', icon: '🌽' },
+          { id: 'mustard', name: 'ਸਰ੍ਹੋਂ (Mustard)', icon: '🌼' },
+        ];
+      case 'mr':
+        return [
+          { id: 'paddy', name: 'भात (Paddy)', icon: '🌾' },
+          { id: 'cotton', name: 'कापूस (Cotton)', icon: '☁️' },
+          { id: 'soybean', name: 'सोयाबीन (Soybean)', icon: '🌱' },
+          { id: 'sugarcane', name: 'ऊस (Sugarcane)', icon: '🎋' },
+          { id: 'onion', name: 'कांदा (Onion)', icon: '🧅' },
+        ];
+      case 'bn':
+        return [
+          { id: 'paddy', name: 'ধান (Paddy)', icon: '🌾' },
+          { id: 'jute', name: 'পাট (Jute)', icon: '🌿' },
+          { id: 'potato', name: 'আলু (Potato)', icon: '🥔' },
+          { id: 'mustard', name: 'সর্ষে (Mustard)', icon: '🌼' },
+          { id: 'tomato', name: 'টমেটো (Tomato)', icon: '🍅' },
+        ];
       default:
         return [
           { id: 'paddy', name: 'Paddy / Rice', icon: '🌾' },
@@ -250,6 +309,27 @@ export function ChatAssistant({
           { id: 'flowering', name: 'फूल व फल बनने की अवस्था (50-80 दिन)', icon: '🌸' },
           { id: 'harvest', name: 'परिपक्वता व कटाई अवस्था', icon: '🌾' },
         ];
+      case 'pa':
+        return [
+          { id: 'seedling', name: 'ਪੁੰਗਰਨ / ਪਨੀਰੀ ਅਵਸਥਾ (0-25 ਦਿਨ)', icon: '🌱' },
+          { id: 'vegetative', name: 'ਫੁਟਾਰਾ / ਸ਼ਾਖਾਵਾਂ ਬਣਨਾ (25-50 ਦਿਨ)', icon: '🌿' },
+          { id: 'flowering', name: 'ਫੁੱਲ ਤੇ ਫਲ ਪੈਣ ਦਾ ਸਮਾਂ (50-80 ਦਿਨ)', icon: '🌸' },
+          { id: 'harvest', name: 'ਪੱਕਣ ਅਤੇ ਵਾਢੀ ਦੀ ਅਵਸਥਾ', icon: '🌾' },
+        ];
+      case 'mr':
+        return [
+          { id: 'seedling', name: 'रोपावस्था / उगवण (0-25 दिवस)', icon: '🌱' },
+          { id: 'vegetative', name: 'शाकीय वाढ / फुटवे (25-50 दिवस)', icon: '🌿' },
+          { id: 'flowering', name: 'फुलोरा व फळधारणा (50-80 दिवस)', icon: '🌸' },
+          { id: 'harvest', name: 'पक्वता व काढणी अवस्था', icon: '🌾' },
+        ];
+      case 'bn':
+        return [
+          { id: 'seedling', name: 'বীজতলা / অঙ্কুরোদ্গম (০-২৫ দিন)', icon: '🌱' },
+          { id: 'vegetative', name: 'অঙ্গজ বৃদ্ধি / কুশি অবস্থা (২৫-৫০ দিন)', icon: '🌿' },
+          { id: 'flowering', name: 'ফুল ও ফল ধরার অবস্থা (৫০-৮০ দিন)', icon: '🌸' },
+          { id: 'harvest', name: 'পরিপক্কতা ও ফসল তোলার অবস্থা', icon: '🌾' },
+        ];
       default:
         return [
           { id: 'seedling', name: 'Seedling / Nursery (0-25 days)', icon: '🌱' },
@@ -277,6 +357,30 @@ export function ChatAssistant({
           { id: 'fertilizer', name: 'संतुलित NPK खाद व पोषण', icon: '💧' },
           { id: 'spray', name: 'कीटनाशक छिड़काव मौसम जांच', icon: '🌦️' },
           { id: 'mandi', name: 'आज का थोक मंडी भाव', icon: '💰' },
+        ];
+      case 'pa':
+        return [
+          { id: 'pest', name: 'ਕੀੜੇ-ਮਕੌੜੇ / ਸੁੰਡੀ ਦਾ ਹਮਲਾ', icon: '🐛' },
+          { id: 'disease', name: 'ਪੱਤੇ ਪੀਲੇ ਪੈਣਾ / ਉੱਲੀ ਤੇ ਝੁਲਸ ਰੋਗ', icon: '🍂' },
+          { id: 'fertilizer', name: 'ਸੰਤੁਲਿਤ NPK ਖਾਦ ਅਤੇ ਖੁਰਾਕ', icon: '💧' },
+          { id: 'spray', name: 'ਸਪਰੇਅ ਕਰਨ ਯੋਗ ਮੌਸਮ ਜਾਂਚ', icon: '🌦️' },
+          { id: 'mandi', name: 'ਅੱਜ ਦਾ ਮੰਡੀ ਭਾਅ', icon: '💰' },
+        ];
+      case 'mr':
+        return [
+          { id: 'pest', name: 'कीड / अळी / खोडकिडा प्रादुर्भाव', icon: '🐛' },
+          { id: 'disease', name: 'पाने पिवळी पडणे / बुरशी व करपा', icon: '🍂' },
+          { id: 'fertilizer', name: 'संतुलित NPK खत व्यवस्थापन', icon: '💧' },
+          { id: 'spray', name: 'फवारणी अनुकूल हवामान स्थिती', icon: '🌦️' },
+          { id: 'mandi', name: 'आजचे कृषी उत्पन्न बाजारभाव', icon: '💰' },
+        ];
+      case 'bn':
+        return [
+          { id: 'pest', name: 'পোকা-মাকড় ও মাজরা আক্রমণ', icon: '🐛' },
+          { id: 'disease', name: 'পাতা হলুদ হওয়া ও ছত্রাক রোগ', icon: '🍂' },
+          { id: 'fertilizer', name: 'সুষম NPK সার ও পুষ্টি', icon: '💧' },
+          { id: 'spray', name: 'স্প্রে করার উপযুক্ত আবহাওয়া', icon: '🌦️' },
+          { id: 'mandi', name: 'আজকের মান্ডি বাজার দর', icon: '💰' },
         ];
       default:
         return [
@@ -520,6 +624,17 @@ export function ChatAssistant({
 
   return (
     <div className="flex flex-col space-y-4">
+      {/* Interactive Multilingual Farmer / Agronomist Avatar Card */}
+      <div className="bg-gradient-to-r from-emerald-50 via-amber-50/60 to-green-50 border border-emerald-200/90 rounded-2xl p-3 sm:p-4 shadow-xs">
+        <FarmerAvatar
+          isSpeaking={isSpeaking}
+          isListening={isListening}
+          currentLang={locale}
+          avatarType={avatarType}
+          onToggleAvatarType={() => setAvatarType((prev) => (prev === 'farmer' ? 'scientist' : 'farmer'))}
+        />
+      </div>
+
       {/* Interactive Guided Field Diagnostic Wizard Button / Drawer */}
       <div className="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-xs space-y-3">
         <div className="flex items-center justify-between gap-2">
@@ -817,7 +932,11 @@ export function ChatAssistant({
                 {/* Read Aloud TTS Playback */}
                 {!isUser && !message.isStreaming && message.content && (
                   <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between">
-                    <SpeakButton text={message.content} locale={locale} />
+                    <SpeakButton
+                      text={message.content}
+                      locale={locale}
+                      onPlayingChange={setIsSpeaking}
+                    />
                   </div>
                 )}
 
@@ -953,6 +1072,7 @@ export function ChatAssistant({
           {/* Vernacular Speech-to-Text Button */}
           <VoiceInputButton
             onTranscript={(spoken) => setInput((prev) => (prev ? `${prev} ${spoken}` : spoken))}
+            onListeningChange={setIsListening}
             disabled={isLoading}
           />
 

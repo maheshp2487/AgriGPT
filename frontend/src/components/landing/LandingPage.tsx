@@ -23,6 +23,7 @@ import {
   Compass,
   Search
 } from 'lucide-react';
+import { CropPlanner } from '@/components/home/CropPlanner';
 
 interface LandingPageProps {
   onNavigateTab: (tabId: string) => void;
@@ -502,6 +503,18 @@ export function LandingPage({
           </div>
         </div>
       </section>
+
+      {/* =========================================================================
+          SEASONAL RABI / SAMBA VISUAL CROP PLANNER
+         ========================================================================= */}
+      <CropPlanner
+        onSelectCrop={(cropName) =>
+          onAskQuery(
+            `What is the recommended ICAR package of practices, fertilizer schedule, and seed treatment for ${cropName}?`,
+            cropName
+          )
+        }
+      />
 
       {/* =========================================================================
           SECTION 3: STEP-BY-STEP USER GUIDE FOR FARMERS

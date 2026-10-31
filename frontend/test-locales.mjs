@@ -1,11 +1,19 @@
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const en = JSON.parse(fs.readFileSync('./src/locales/en.json', 'utf8'));
-const ta = JSON.parse(fs.readFileSync('./src/locales/ta.json', 'utf8'));
-const hi = JSON.parse(fs.readFileSync('./src/locales/hi.json', 'utf8'));
-const te = JSON.parse(fs.readFileSync('./src/locales/te.json', 'utf8'));
-const kn = JSON.parse(fs.readFileSync('./src/locales/kn.json', 'utf8'));
-const ml = JSON.parse(fs.readFileSync('./src/locales/ml.json', 'utf8'));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const loadLocale = (lang) => JSON.parse(fs.readFileSync(path.join(__dirname, 'src', 'locales', `${lang}.json`), 'utf8'));
+
+const en = loadLocale('en');
+const ta = loadLocale('ta');
+const hi = loadLocale('hi');
+const te = loadLocale('te');
+const kn = loadLocale('kn');
+const ml = loadLocale('ml');
+const pa = loadLocale('pa');
+const mr = loadLocale('mr');
+const bn = loadLocale('bn');
 
 function getAllKeys(obj, prefix = '') {
   let keys = [];
@@ -27,6 +35,9 @@ const catalogs = [
   { name: 'Telugu', data: te, expectedPrefix: 'అగ్రి' },
   { name: 'Kannada', data: kn, expectedPrefix: 'ಅಗ್ರಿ' },
   { name: 'Malayalam', data: ml, expectedPrefix: 'അഗ്രി' },
+  { name: 'Punjabi', data: pa, expectedPrefix: 'ਐਗਰੀ' },
+  { name: 'Marathi', data: mr, expectedPrefix: 'ॲग्री' },
+  { name: 'Bengali', data: bn, expectedPrefix: 'এগ্রি' },
 ];
 
 console.log(`Base English Keys: ${enKeys.length}`);
@@ -47,4 +58,4 @@ for (const cat of catalogs) {
   console.log(`✓ ${cat.name} Unicode glyphs decoded correctly: ${cat.data.brand.name}`);
 }
 
-console.log('\n✓ All 6 Indic language catalogs passed 100% key parity & Unicode assertions!');
+console.log('\n✓ All 9 Indic language catalogs passed 100% key parity & Unicode assertions!');

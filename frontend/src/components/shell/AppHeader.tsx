@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
-import { Sprout, Globe, MapPin, User as UserIcon, Bell } from 'lucide-react';
+import { Sprout, Globe, MapPin, User as UserIcon, Bell, Layers, Cpu } from 'lucide-react';
 import { LanguageModal } from './LanguageModal';
+import { AiConfigModal } from './AiConfigModal';
+import { ArchitectureModal } from './ArchitectureModal';
 
 interface AppHeaderProps {
   onOpenNotifications?: () => void;
@@ -22,6 +24,8 @@ export function AppHeader({
   const { currentLanguage, t } = useLanguage();
   const { isAuthenticated, profile, openLoginModal, openProfileDrawer } = useAuth();
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isArchOpen, setIsArchOpen] = useState(false);
+  const [isAiConfigOpen, setIsAiConfigOpen] = useState(false);
 
   // Core agricultural tool tabs only (Home is accessed via AgriGPT brand logo)
   const mainNavTabs = [
@@ -108,6 +112,30 @@ export function AppHeader({
               </div>
             )}
 
+            {/* Architecture Modal Trigger */}
+            <button
+              type="button"
+              onClick={() => setIsArchOpen(true)}
+              title="System Architecture Blueprint"
+              aria-label="System Architecture Blueprint"
+              className="touch-target p-2 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 transition-colors text-xs font-semibold flex items-center gap-1"
+            >
+              <Layers className="w-4 h-4 text-[#2e7d32]" />
+              <span className="hidden xl:inline">Blueprint</span>
+            </button>
+
+            {/* AI Config Modal Trigger */}
+            <button
+              type="button"
+              onClick={() => setIsAiConfigOpen(true)}
+              title="Configure AI Models & Bhashini"
+              aria-label="Configure AI Models & Bhashini"
+              className="touch-target p-2 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 transition-colors text-xs font-semibold flex items-center gap-1"
+            >
+              <Cpu className="w-4 h-4 text-amber-600" />
+              <span className="hidden xl:inline">AI Engine</span>
+            </button>
+
             {/* First-Class Language Switcher Button (Nature Green) */}
             <button
               onClick={() => setIsLangOpen(true)}
@@ -145,6 +173,12 @@ export function AppHeader({
 
       {/* Language Selection Modal */}
       <LanguageModal isOpen={isLangOpen} onClose={() => setIsLangOpen(false)} />
+
+      {/* AI Config Modal */}
+      <AiConfigModal isOpen={isAiConfigOpen} onClose={() => setIsAiConfigOpen(false)} />
+
+      {/* System Architecture Modal */}
+      <ArchitectureModal isOpen={isArchOpen} onClose={() => setIsArchOpen(false)} />
     </>
   );
 }

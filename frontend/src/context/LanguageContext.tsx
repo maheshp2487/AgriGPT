@@ -8,6 +8,9 @@ import hi from '@/locales/hi.json';
 import te from '@/locales/te.json';
 import kn from '@/locales/kn.json';
 import ml from '@/locales/ml.json';
+import pa from '@/locales/pa.json';
+import mr from '@/locales/mr.json';
+import bn from '@/locales/bn.json';
 
 const dictionaries: Record<Locale, typeof en> = {
   en,
@@ -16,6 +19,9 @@ const dictionaries: Record<Locale, typeof en> = {
   te: te as typeof en,
   kn: kn as typeof en,
   ml: ml as typeof en,
+  pa: pa as typeof en,
+  mr: mr as typeof en,
+  bn: bn as typeof en,
 };
 
 interface LanguageContextType {
@@ -30,7 +36,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const COOKIE_NAME = 'NEXT_LOCALE';
 
-const VALID_LOCALES: Locale[] = ['en', 'ta', 'hi', 'te', 'kn', 'ml'];
+const VALID_LOCALES: Locale[] = ['en', 'ta', 'hi', 'te', 'kn', 'ml', 'pa', 'mr', 'bn'];
 
 function getCookieLocale(): Locale {
   if (typeof document === 'undefined') return 'en';

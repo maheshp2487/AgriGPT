@@ -42,6 +42,9 @@ const DISTRICT_OPTIONS: Record<string, string[]> = {
   'Karnataka': ['Dharwad', 'Belagavi', 'Mysuru', 'Ballari', 'Shimoga'],
   'Andhra Pradesh': ['Kurnool', 'Guntur', 'Anantapur', 'Chittoor'],
   'Maharashtra': ['Nashik', 'Pune', 'Nagpur', 'Amravati', 'Latur'],
+  'Punjab': ['Ludhiana', 'Amritsar', 'Patiala', 'Jalandhar', 'Bathinda'],
+  'West Bengal': ['Bardhaman', 'Hooghly', 'Nadia', 'Murshidabad', 'North 24 Parganas'],
+  'Uttar Pradesh': ['Varanasi', 'Lucknow', 'Agra', 'Kanpur', 'Meerut'],
 };
 
 const COMMODITY_OPTIONS = [
@@ -358,6 +361,64 @@ export function MandiExplorer() {
                         )}
                       </div>
                     </div>
+
+                    {/* Visual Trading Range Gauge Meter & Seller Action Tip */}
+                    {(() => {
+                      const min = rec.prices.min_price;
+                      const max = rec.prices.max_price;
+                      const modal = rec.prices.modal_price;
+                      let gaugePct = 70;
+                      if (min !== null && max !== null && max > min) {
+                        gaugePct = Math.round(((modal - min) / (max - min)) * 100);
+                        gaugePct = Math.max(10, Math.min(95, gaugePct));
+                      }
+
+                      const isNearPeak = gaugePct >= 70;
+                      const isNearLow = gaugePct <= 35;
+
+                      return (
+                        <div className="bg-slate-50 rounded-xl p-3 border border-slate-200/80 space-y-2">
+                          <div className="flex items-center justify-between text-[10px] font-bold text-slate-500">
+                            <span>Min: ₹{min ? min.toLocaleString('en-IN') : '--'}</span>
+                            <span className="text-emerald-800">Peak: ₹{max ? max.toLocaleString('en-IN') : '--'}</span>
+                          </div>
+
+                          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden p-0.5 relative">
+                            <div
+                              className={`h-full rounded-full transition-all duration-500 ${
+                                isNearPeak
+                                  ? 'bg-gradient-to-r from-emerald-500 to-green-600'
+                                  : isNearLow
+                                  ? 'bg-gradient-to-r from-amber-400 to-rose-500'
+                                  : 'bg-gradient-to-r from-teal-400 to-emerald-500'
+                              }`}
+                              style={{ width: `${gaugePct}%` }}
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-slate-600 font-medium">
+                              Modal is <strong>{gaugePct}%</strong> of trading band
+                            </span>
+                            <span
+                              className={`font-bold px-2 py-0.5 rounded text-[10px] ${
+                                isNearPeak
+                                  ? 'bg-emerald-100 text-emerald-800'
+                                  : isNearLow
+                                  ? 'bg-amber-100 text-amber-800'
+                                  : 'bg-slate-200 text-slate-700'
+                              }`}
+                            >
+                              {isNearPeak
+                                ? '🔥 Peak Selling Window'
+                                : isNearLow
+                                ? '⏳ Consider Holding'
+                                : '⚖️ Steady Range'}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })()}
 
                     {/* Complete Observation, Source, & Fetch Timestamps */}
                     <div className="space-y-1 pt-2 border-t border-slate-100 text-[11px] text-slate-500">
