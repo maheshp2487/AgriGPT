@@ -73,7 +73,7 @@ export default function HomePage() {
 
           {/* Main Content Workspace Viewport */}
           <div className="flex-1 flex flex-col min-w-0">
-            <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
+            <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full bg-[#F8FAF7]">
               <div className="w-full max-w-5xl xl:max-w-6xl mx-auto space-y-6">
                 <HomeFeed
                   activeTab={activeTab}

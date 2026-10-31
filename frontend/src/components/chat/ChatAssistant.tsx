@@ -18,17 +18,17 @@ import {
   Loader2,
   Brain,
   Sliders,
-  CheckCircle2,
   Sprout,
   Compass,
-  Layers,
-  HelpCircle,
-  ChevronRight,
-  Sparkle
+  Settings,
+  Globe,
+  Bot,
+  Zap,
 } from 'lucide-react';
 import { VoiceInputButton } from './VoiceInputButton';
 import { SpeakButton } from './SpeakButton';
 import { FarmerAvatar } from './FarmerAvatar';
+import { CHAT_LOCALES } from '@/lib/chatLocales';
 
 interface Citation {
   chunk_id: string;
@@ -73,42 +73,20 @@ export function ChatAssistant({
   onConversationStart,
   initialQuery,
   initialCrop,
-  onNavigateTab
+  onNavigateTab,
 }: ChatAssistantProps) {
-  const { t, locale } = useLanguage();
+  const { t, locale, currentLanguage } = useLanguage();
+  const locData = CHAT_LOCALES[locale] || CHAT_LOCALES.en;
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [avatarType, setAvatarType] = useState<'farmer' | 'scientist'>('farmer');
 
-  const getWelcomeContent = () => {
-    switch (locale) {
-      case 'ta':
-        return 'வணக்கம்! நான் அக்ரி ஜிபிடி (AgriGPT). பயிர் சாகுபடி, உரம், பூச்சி மேலாண்மை, மண்டி விலை மற்றும் வானிலை குறித்த நம்பகமான வழிகாட்டல்களைப் பெற என்னிடம் கேட்கலாம்.';
-      case 'hi':
-        return 'नमस्ते! मैं एग्री जीपीटी (AgriGPT) हूँ। फसल उत्पादन, खाद, कीट प्रबंधन, मंडी भाव और मौसम के बारे में आधिकारिक जानकारी के लिए मुझसे पूछें।';
-      case 'te':
-        return 'నమస్తే! నేను అగ్రి జిపిటి (AgriGPT). పంట సాగు, ఎరువులు, తెగుళ్ల నివారణ, మార్కెట్ ధరలు మరియు వాతావరణం గురించి అధికారిక సమాచారం కోసం నన్ను అడగండి.';
-      case 'kn':
-        return 'ನಮಸ್ಕಾರ! ನಾನು ಅಗ್ರಿ ಜಿಪಿಟಿ (AgriGPT). ಬೆಳೆ ನಿರ್ವಹಣೆ, ಗೊಬ್ಬರ, ಕೀಟ ನಿಯಂತ್ರಣ, ಮಾರುಕಟ್ಟೆ ದರ ಮತ್ತು ಹವಾಮಾನದ ಕುರಿತು ಅಧಿಕೃತ ಮಾಹಿತಿಗಾಗಿ ನನ್ನನ್ನು ಕೇಳಿ.';
-      case 'ml':
-        return 'നമസ്കാരം! ഞാൻ അഗ്രി ജിപിടി (AgriGPT). വിള പരിപാലനം, വളം, കീടനിയന്ത്രണം, വിപണി വില, കാലാവസ്ഥ എന്നിവയെക്കുറിച്ചുള്ള ഔദ്യോഗിക വിവരങ്ങൾക്ക് എന്നോട് ചോദിക്കാം.';
-      case 'pa':
-        return 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! ਮੈਂ ਐਗਰੀ ਜੀਪੀਟੀ (AgriGPT) ਹਾਂ। ਫਸਲ ਉਤਪਾਦਨ, ਖਾਦ, ਕੀਟ ਪ੍ਰਬੰਧਨ, ਮੰਡੀ ਭਾਅ ਅਤੇ ਮੌਸਮ ਬਾਰੇ ਅਧਿਕਾਰਤ ਜਾਣਕਾਰੀ ਲਈ ਮੈਨੂੰ ਪੁੱਛੋ।';
-      case 'mr':
-        return 'नमस्कार! मी ॲग्री जीपीटी (AgriGPT) आहे. पीक उत्पादन, खत, कीड नियंत्रण, बाजारभाव आणि हवामानाबद्दल अधिकृत माहितीसाठी मला विचारा.';
-      case 'bn':
-        return 'নমস্কার! আমি এগ্রি জিপিটি (AgriGPT)। ফসল উৎপাদন, সার, কীট দমন, মান্ডি দর এবং আবহাওয়া সংক্রান্ত সরকারি নির্দেশিকার জন্য আমাকে জিজ্ঞাসা করুন।';
-      default:
-        return 'Welcome! I am AgriGPT, your multilingual agricultural advisor grounded in official ICAR & SAU Package of Practices. Ask me about crop protection, mandi prices, or weather suitability.';
-    }
-  };
-
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome-1',
       role: 'assistant',
-      content: getWelcomeContent(),
+      content: locData.welcomeDesc,
     },
   ]);
 
@@ -121,306 +99,83 @@ export function ChatAssistant({
   const [isLoading, setIsLoading] = useState(false);
   const [expandedCitations, setExpandedCitations] = useState<Record<string, boolean>>({});
   const [expandedThoughts, setExpandedThoughts] = useState<Record<string, boolean>>({});
+
   const abortControllerRef = useRef<AbortController | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isAutoScrollActiveRef = useRef<boolean>(true);
+  const rafIdRef = useRef<number | null>(null);
+  const isFirstRenderRef = useRef<boolean>(true);
 
-  const toggleThought = (msgId: string) => {
-    setExpandedThoughts((prev) => ({
-      ...prev,
-      [msgId]: prev[msgId] === false ? true : false,
-    }));
+  // Automatically sync initial greeting when language changes
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 1 && prev[0].id.startsWith('welcome')) {
+        return [
+          {
+            id: prev[0].id,
+            role: 'assistant',
+            content: locData.welcomeDesc,
+          },
+        ];
+      }
+      return prev;
+    });
+  }, [locale, locData.welcomeDesc]);
+
+  // Listen to user scroll to detect if they intentionally scrolled up to read earlier text
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const fullHeight = document.documentElement.scrollHeight;
+      const distanceFromBottom = fullHeight - (scrollY + viewportHeight);
+      isAutoScrollActiveRef.current = distanceFromBottom <= 180;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, []);
+
+  const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
+    if (!messagesEndRef.current) return;
+    messagesEndRef.current.scrollIntoView({
+      behavior,
+      block: 'end',
+    });
   };
 
-  // Dynamic vernacular prompt pills across all 6 Indic languages covering the Agri Universe
-  const getPromptPills = () => {
-    switch (locale) {
-      case 'ta':
-        return [
-          { label: 'நெல் தண்டு துளைப்பான்', query: 'நெல் தண்டு துளைப்பான் மேலாண்மை என்ன?', crop: 'paddy' },
-          { label: 'தக்காளி இலைச்சுருட்டு & காய்ப்புழு', query: 'தக்காளி இலைச்சுருட்டு நோய் மற்றும் காய்ப்புழு கட்டுப்பாடு என்ன?', crop: 'tomato' },
-          { label: 'மண் பரிசோதனை & NPK உரம்', query: 'மண் பரிசோதனை மற்றும் NPK உரம் இடும் முறை என்ன?' },
-          { label: 'சொட்டு நீர் பாசன நன்மைகள்', query: 'சொட்டு நீர் பாசனத்தின் நன்மைகள் மற்றும் அரசு மானியம் என்ன?' },
-          { label: 'எண்டோசல்பான் பாதுகாப்பு?', query: 'நெல் பயிரில் எண்டோசல்பான் மருந்து அளவு என்ன?', crop: 'paddy' },
-          { label: 'இயற்கை ஜீவாமிர்தம் தயாரிப்பு', query: 'திரவ ஜீவாமிர்தம் தயாரிக்கும் முறை என்ன?' },
-        ];
-      case 'hi':
-        return [
-          { label: 'धान का तना छेदक', query: 'धान के तना छेदक का प्रबंधन कैसे करें?', crop: 'paddy' },
-          { label: 'टमाटर पत्ती मरोड़ व फल छेदक', query: 'टमाटर में पत्ती मरोड़ और फल छेदक कीट का उपचार क्या है?', crop: 'tomato' },
-          { label: 'मृदा स्वास्थ्य कार्ड व NPK', query: 'मृदा स्वास्थ्य कार्ड के 12 मानक और संतुलित खाद प्रयोग क्या है?' },
-          { label: 'ड्रिप सिंचाई व सब्सिडी', query: 'ड्रिप सिंचाई के क्या फायदे हैं और सरकारी सब्सिडी कैसे मिलती है?' },
-          { label: 'एंडोसल्फान सुरक्षा?', query: 'धान के लिए एंडोसल्फान की मात्रा क्या है?', crop: 'paddy' },
-          { label: 'प्राकृतिक जीवामृत निर्माण', query: 'प्राकृतिक खेती के लिए जीवामृत बनाने की विधि क्या है?' },
-        ];
-      case 'te':
-        return [
-          { label: 'వరి కాండం తొలుచు పురుగు', query: 'వరి కాండం తొలుచు పురుగు నివారణ పద్ధతులు ఏమిటి?', crop: 'paddy' },
-          { label: 'టమోటా ఆకుముడత నివారణ', query: 'టమోటాలో ఆకుముడత తెగులు మరియు కాయతొలుచు పురుగు నివారణ?', crop: 'tomato' },
-          { label: 'నేల ఆరోగ్యం & ఎరువులు', query: 'నేల ఆరోగ్య కార్డు మరియు శాస్త్రీయ ఎరువుల యాజమాన్యం ఏమిటి?' },
-          { label: 'డ్రిప్ ఇరిగేషన్ రాయితీ', query: 'బిందు సేద్యం (డ్రిప్) ప్రయోజనాలు మరియు ప్రభుత్వ సబ్సిడీ ఏమిటి?' },
-          { label: 'ఎండోసల్ఫాన్ భద్రత?', query: 'వరి పంటకు ఎండోసల్ఫాన్ మోతాదు ఎంత?', crop: 'paddy' },
-        ];
-      case 'kn':
-        return [
-          { label: 'ಭತ್ತದ ಕಾಂಡ ಕೊರೆಯುವ ಹುಳು', query: 'ಭತ್ತದ ಕಾಂಡ ಕೊರೆಯುವ ಹುಳುವಿನ ನಿರ್ವಹಣೆ ಹೇಗೆ?', crop: 'paddy' },
-          { label: 'ಟೊಮೆಟೊ ಎಲೆ ಮುದುರು ರೋಗ', query: 'ಟೊಮೆಟೊ ಎಲೆ ಮುದುರು ರೋಗ ಮತ್ತು ಹಣ್ಣು ಕೊರೆಯುವ ಹುಳು ನಿಯಂತ್ರಣ?', crop: 'tomato' },
-          { label: 'ಮಣ್ಣಿನ ಆರೋಗ್ಯ & NPK', query: 'ಮಣ್ಣಿನ ಆರೋಗ್ಯ ಕಾರ್ಡ್ ಮತ್ತು ಸಮತೋಲಿತ ಗೊಬ್ಬರ ನಿರ್ವಹಣೆ?' },
-          { label: 'ಹನಿ ನೀರಾವರಿ ಸಬ್ಸಿಡಿ', query: 'ಹನಿ ನೀರಾವರಿ ಪದ್ಧತಿ ಮತ್ತು ಸರ್ಕಾರದ ಸಹಾಯಧನ ವಿವರ?' },
-          { label: 'ಎಂಡೋಸಲ್ಫಾನ್ ಸುರಕ್ಷತೆ?', query: 'ಭತ್ತಕ್ಕೆ ಎಂಡೋಸಲ್ಫಾನ್ ಪ್ರಮಾಣ ಎಷ್ಟು?', crop: 'paddy' },
-        ];
-      case 'ml':
-        return [
-          { label: 'നെല്ല് തണ്ടുതുരപ്പൻ പുഴു', query: 'നെല്ലിലെ തണ്ടുതുരപ്പൻ പുഴുവിനെ എങ്ങനെ നിയന്ത്രിക്കാം?', crop: 'paddy' },
-          { label: 'തക്കാളി ഇലച്ചുരുൾ രോഗം', query: 'തക്കാളിയിലെ ഇലച്ചുരുൾ രോഗവും കായതുരപ്പൻ പുഴുവും?', crop: 'tomato' },
-          { label: 'മണ്ണ് പരിശോധന & വളം', query: 'മണ്ണ് പരിശോധനയും ശാസ്ത്രീയ വളപ്രയോഗവും എങ്ങനെ?' },
-          { label: 'തുള്ളിനന സബ്‌സിഡി', query: 'തുള്ളിനന സമ്പ്രദായത്തിന്റെ ഗുണങ്ങളും സബ്‌സിഡിയും?' },
-          { label: 'എൻഡോസൾഫാൻ സുരക്ഷ?', query: 'നെല്ലിൽ എൻഡോസൾഫാൻ ഉപയോഗിക്കാമോ?', crop: 'paddy' },
-        ];
-      case 'pa':
-        return [
-          { label: 'ਝੋਨੇ ਦਾ ਤਣਾ ਛੇਦਕ', query: 'ਝੋਨੇ ਦੇ ਤਣਾ ਛੇਦਕ ਦਾ ਪ੍ਰਬੰਧਨ ਕਿਵੇਂ ਕਰੀਏ?', crop: 'paddy' },
-          { label: 'ਕਣਕ ਵਿੱਚ ਪੀਲੀ ਕੁੰਗੀ', query: 'ਕਣਕ ਵਿੱਚ ਪੀਲੀ ਕੁੰਗੀ ਦੀ ਰੋਕਥਾਮ ਕਿਵੇਂ ਕਰੀਏ?', crop: 'wheat' },
-          { label: 'ਮਿੱਟੀ ਟੈਸਟ ਤੇ NPK', query: 'ਮਿੱਟੀ ਸਿਹਤ ਕਾਰਡ ਅਤੇ ਸੰਤੁਲਿਤ NPK ਖਾਦਾਂ ਦੀ ਵਰਤੋਂ?' },
-          { label: 'ਟਪਕਾ ਸਿੰਚਾਈ ਸਬਸਿਡੀ', query: 'ਟਪਕਾ ਸਿੰਚਾਈ ਦੇ ਲਾਭ ਅਤੇ ਸਰਕਾਰੀ ਸਬਸਿਡੀ?' },
-          { label: 'ਐਂਡੋਸਲਫਾਨ ਸੁਰੱਖਿਆ?', query: 'ਕੀ ਝੋਨੇ ਲਈ ਐਂਡੋਸਲਫਾਨ ਸੁਰੱਖਿਅਤ ਹੈ?', crop: 'paddy' },
-        ];
-      case 'mr':
-        return [
-          { label: 'भातातील खोडकिडा', query: 'भातातील खोडकिडीचे नियंत्रण कसे करावे?', crop: 'paddy' },
-          { label: 'कापूस बोंडअळी व्यवस्थापन', query: 'कापसावरील गुलाबी बोंडअळीचे व्यवस्थापन कसे करावे?', crop: 'cotton' },
-          { label: 'माती परीक्षण व NPK', query: 'माती आरोग्य पत्रिका आणि संतुलित NPK खतांचा वापर कसा करावा?' },
-          { label: 'ठिबक सिंचन अनुदान', query: 'ठिबक सिंचनाचे फायदे आणि शासकीय अनुदान?' },
-          { label: 'एंडोसल्फान सुरक्षितता?', query: 'भातासाठी एंडोसल्फानचे प्रमाण काय आहे?', crop: 'paddy' },
-        ];
-      case 'bn':
-        return [
-          { label: 'ধানের মাজরা পোকা দমন', query: 'ধানের মাজরা পোকা নিয়ন্ত্রণের উপায় কী?', crop: 'paddy' },
-          { label: 'টমেটো পাতা কোঁকড়ানো রোগ', query: 'টমেটোর পাতা কোঁকড়ানো রোগ ও ফলছিদ্রকারী পোকা দমন?', crop: 'tomato' },
-          { label: 'মাটি পরীক্ষা ও NPK সার', query: 'মৃত্তিকা স্বাস্থ্য কার্ড ও সুষম NPK সারের ব্যবহার?' },
-          { label: 'ড্রিপ সেচ ও সরকারি ভর্তুকি', query: 'ড্রিপ সেচের সুবিধা ও সরকারি ভর্তুকি কীভাবে পাবেন?' },
-          { label: 'এন্ডোসালফান সতর্কতা?', query: 'ধানের জন্য এন্ডোসালফান মাত্রা কী?', crop: 'paddy' },
-        ];
-      default:
-        return [
-          { label: 'Paddy stem borer control', query: 'How to manage yellow stem borer in paddy?', crop: 'paddy' },
-          { label: 'Tomato leaf curl & borer', query: 'How to manage tomato leaf curl virus and fruit borer?', crop: 'tomato' },
-          { label: 'Soil Health & NPK Balance', query: 'What are the 12 Soil Health Card parameters and balanced NPK ratios?' },
-          { label: 'Drip Irrigation & Subsidy', query: 'What are the benefits of drip irrigation and how to get PMKSY subsidy?' },
-          { label: 'Is Endosulfan safe?', query: 'What is the dosage of Endosulfan for paddy?', crop: 'paddy' },
-          { label: 'Organic Jeevamrutha Recipe', query: 'How to prepare liquid Jeevamrutha for natural farming?' },
-        ];
-    }
-  };
+  const scheduleAutoScroll = () => {
+    if (!isAutoScrollActiveRef.current) return;
+    if (rafIdRef.current !== null) return;
 
-  const getCropsList = () => {
-    switch (locale) {
-      case 'ta':
-        return [
-          { id: 'paddy', name: 'நெல் (Paddy)', icon: '🌾' },
-          { id: 'tomato', name: 'தக்காளி (Tomato)', icon: '🍅' },
-          { id: 'cotton', name: 'பருத்தி (Cotton)', icon: '☁️' },
-          { id: 'maize', name: 'மக்காச்சோளம் (Maize)', icon: '🌽' },
-          { id: 'chilli', name: 'மிளகாய் (Chilli)', icon: '🌶️' },
-          { id: 'groundnut', name: 'நிலக்கடலை (Groundnut)', icon: '🥜' },
-        ];
-      case 'hi':
-        return [
-          { id: 'paddy', name: 'धान (Paddy)', icon: '🌾' },
-          { id: 'wheat', name: 'गेहूं (Wheat)', icon: '🌾' },
-          { id: 'tomato', name: 'टमाटर (Tomato)', icon: '🍅' },
-          { id: 'cotton', name: 'कपास (Cotton)', icon: '☁️' },
-          { id: 'maize', name: 'मक्का (Maize)', icon: '🌽' },
-          { id: 'chilli', name: 'मिर्च (Chilli)', icon: '🌶️' },
-        ];
-      case 'te':
-        return [
-          { id: 'paddy', name: 'వరి (Paddy)', icon: '🌾' },
-          { id: 'cotton', name: 'పత్తి (Cotton)', icon: '☁️' },
-          { id: 'chilli', name: 'మిరప (Chilli)', icon: '🌶️' },
-          { id: 'tomato', name: 'టమోటా (Tomato)', icon: '🍅' },
-          { id: 'maize', name: 'మొక్కజొన్న (Maize)', icon: '🌽' },
-        ];
-      case 'kn':
-        return [
-          { id: 'paddy', name: 'ಭತ್ತ (Paddy)', icon: '🌾' },
-          { id: 'cotton', name: 'ಹತ್ತಿ (Cotton)', icon: '☁️' },
-          { id: 'tomato', name: 'ಟೊಮೆಟೊ (Tomato)', icon: '🍅' },
-          { id: 'maize', name: 'ಮೆಕ್ಕೆಜೋಳ (Maize)', icon: '🌽' },
-          { id: 'chilli', name: 'ಮೆಣಸಿನಕಾಯಿ (Chilli)', icon: '🌶️' },
-        ];
-      case 'ml':
-        return [
-          { id: 'paddy', name: 'നെല്ല് (Paddy)', icon: '🌾' },
-          { id: 'banana', name: 'വാഴ (Banana)', icon: '🍌' },
-          { id: 'pepper', name: 'കുരുമുളക് (Pepper)', icon: '🌿' },
-          { id: 'rubber', name: 'റബ്ബർ (Rubber)', icon: '🌳' },
-          { id: 'tomato', name: 'തക്കാളി (Tomato)', icon: '🍅' },
-        ];
-      case 'pa':
-        return [
-          { id: 'paddy', name: 'ਝੋਨਾ (Paddy)', icon: '🌾' },
-          { id: 'wheat', name: 'ਕਣਕ (Wheat)', icon: '🌾' },
-          { id: 'cotton', name: 'ਨਰਮਾ/ਕਪਾਹ (Cotton)', icon: '☁️' },
-          { id: 'maize', name: 'ਮੱਕੀ (Maize)', icon: '🌽' },
-          { id: 'mustard', name: 'ਸਰ੍ਹੋਂ (Mustard)', icon: '🌼' },
-        ];
-      case 'mr':
-        return [
-          { id: 'paddy', name: 'भात (Paddy)', icon: '🌾' },
-          { id: 'cotton', name: 'कापूस (Cotton)', icon: '☁️' },
-          { id: 'soybean', name: 'सोयाबीन (Soybean)', icon: '🌱' },
-          { id: 'sugarcane', name: 'ऊस (Sugarcane)', icon: '🎋' },
-          { id: 'onion', name: 'कांदा (Onion)', icon: '🧅' },
-        ];
-      case 'bn':
-        return [
-          { id: 'paddy', name: 'ধান (Paddy)', icon: '🌾' },
-          { id: 'jute', name: 'পাট (Jute)', icon: '🌿' },
-          { id: 'potato', name: 'আলু (Potato)', icon: '🥔' },
-          { id: 'mustard', name: 'সর্ষে (Mustard)', icon: '🌼' },
-          { id: 'tomato', name: 'টমেটো (Tomato)', icon: '🍅' },
-        ];
-      default:
-        return [
-          { id: 'paddy', name: 'Paddy / Rice', icon: '🌾' },
-          { id: 'tomato', name: 'Tomato', icon: '🍅' },
-          { id: 'cotton', name: 'Cotton', icon: '☁️' },
-          { id: 'wheat', name: 'Wheat', icon: '🌾' },
-          { id: 'maize', name: 'Maize / Corn', icon: '🌽' },
-          { id: 'chilli', name: 'Chilli', icon: '🌶️' },
-        ];
-    }
-  };
-
-  const getStagesList = () => {
-    switch (locale) {
-      case 'ta':
-        return [
-          { id: 'seedling', name: 'நாற்று / முளைப்பு நிலை (0-25 நாள்)', icon: '🌱' },
-          { id: 'vegetative', name: 'வளர்ச்சி / தூர்கட்டும் நிலை (25-50 நாள்)', icon: '🌿' },
-          { id: 'flowering', name: 'பூக்கும் / காய் பிடிக்கும் நிலை (50-80 நாள்)', icon: '🌸' },
-          { id: 'harvest', name: 'முதிர்ச்சி / அறுவடை நிலை', icon: '🌾' },
-        ];
-      case 'hi':
-        return [
-          { id: 'seedling', name: 'अंकुरण / नर्सरी अवस्था (0-25 दिन)', icon: '🌱' },
-          { id: 'vegetative', name: 'वानस्पतिक वृद्धि / कल्ले (25-50 दिन)', icon: '🌿' },
-          { id: 'flowering', name: 'फूल व फल बनने की अवस्था (50-80 दिन)', icon: '🌸' },
-          { id: 'harvest', name: 'परिपक्वता व कटाई अवस्था', icon: '🌾' },
-        ];
-      case 'pa':
-        return [
-          { id: 'seedling', name: 'ਪੁੰਗਰਨ / ਪਨੀਰੀ ਅਵਸਥਾ (0-25 ਦਿਨ)', icon: '🌱' },
-          { id: 'vegetative', name: 'ਫੁਟਾਰਾ / ਸ਼ਾਖਾਵਾਂ ਬਣਨਾ (25-50 ਦਿਨ)', icon: '🌿' },
-          { id: 'flowering', name: 'ਫੁੱਲ ਤੇ ਫਲ ਪੈਣ ਦਾ ਸਮਾਂ (50-80 ਦਿਨ)', icon: '🌸' },
-          { id: 'harvest', name: 'ਪੱਕਣ ਅਤੇ ਵਾਢੀ ਦੀ ਅਵਸਥਾ', icon: '🌾' },
-        ];
-      case 'mr':
-        return [
-          { id: 'seedling', name: 'रोपावस्था / उगवण (0-25 दिवस)', icon: '🌱' },
-          { id: 'vegetative', name: 'शाकीय वाढ / फुटवे (25-50 दिवस)', icon: '🌿' },
-          { id: 'flowering', name: 'फुलोरा व फळधारणा (50-80 दिवस)', icon: '🌸' },
-          { id: 'harvest', name: 'पक्वता व काढणी अवस्था', icon: '🌾' },
-        ];
-      case 'bn':
-        return [
-          { id: 'seedling', name: 'বীজতলা / অঙ্কুরোদ্গম (০-২৫ দিন)', icon: '🌱' },
-          { id: 'vegetative', name: 'অঙ্গজ বৃদ্ধি / কুশি অবস্থা (২৫-৫০ দিন)', icon: '🌿' },
-          { id: 'flowering', name: 'ফুল ও ফল ধরার অবস্থা (৫০-৮০ দিন)', icon: '🌸' },
-          { id: 'harvest', name: 'পরিপক্কতা ও ফসল তোলার অবস্থা', icon: '🌾' },
-        ];
-      default:
-        return [
-          { id: 'seedling', name: 'Seedling / Nursery (0-25 days)', icon: '🌱' },
-          { id: 'vegetative', name: 'Vegetative Growth (25-50 days)', icon: '🌿' },
-          { id: 'flowering', name: 'Flowering & Fruiting (50-80 days)', icon: '🌸' },
-          { id: 'harvest', name: 'Maturation & Harvest', icon: '🌾' },
-        ];
-    }
-  };
-
-  const getIssuesList = () => {
-    switch (locale) {
-      case 'ta':
-        return [
-          { id: 'pest', name: 'பூச்சி / புழு தாக்குதல்', icon: '🐛' },
-          { id: 'disease', name: 'இலை மஞ்சள் / புள்ளி / வாடல் நோய்', icon: '🍂' },
-          { id: 'fertilizer', name: 'NPK உர அளவு & சத்து குறைபாடு', icon: '💧' },
-          { id: 'spray', name: 'மருந்து தெளிக்கும் வானிலை & காற்று', icon: '🌦️' },
-          { id: 'mandi', name: 'இன்றைய மண்டி மொத்த விற்பனை விலை', icon: '💰' },
-        ];
-      case 'hi':
-        return [
-          { id: 'pest', name: 'कीट / सुंडी / तना छेदक प्रकोप', icon: '🐛' },
-          { id: 'disease', name: 'पत्ती पीली पड़ना / फफूंद व झुलसा', icon: '🍂' },
-          { id: 'fertilizer', name: 'संतुलित NPK खाद व पोषण', icon: '💧' },
-          { id: 'spray', name: 'कीटनाशक छिड़काव मौसम जांच', icon: '🌦️' },
-          { id: 'mandi', name: 'आज का थोक मंडी भाव', icon: '💰' },
-        ];
-      case 'pa':
-        return [
-          { id: 'pest', name: 'ਕੀੜੇ-ਮਕੌੜੇ / ਸੁੰਡੀ ਦਾ ਹਮਲਾ', icon: '🐛' },
-          { id: 'disease', name: 'ਪੱਤੇ ਪੀਲੇ ਪੈਣਾ / ਉੱਲੀ ਤੇ ਝੁਲਸ ਰੋਗ', icon: '🍂' },
-          { id: 'fertilizer', name: 'ਸੰਤੁਲਿਤ NPK ਖਾਦ ਅਤੇ ਖੁਰਾਕ', icon: '💧' },
-          { id: 'spray', name: 'ਸਪਰੇਅ ਕਰਨ ਯੋਗ ਮੌਸਮ ਜਾਂਚ', icon: '🌦️' },
-          { id: 'mandi', name: 'ਅੱਜ ਦਾ ਮੰਡੀ ਭਾਅ', icon: '💰' },
-        ];
-      case 'mr':
-        return [
-          { id: 'pest', name: 'कीड / अळी / खोडकिडा प्रादुर्भाव', icon: '🐛' },
-          { id: 'disease', name: 'पाने पिवळी पडणे / बुरशी व करपा', icon: '🍂' },
-          { id: 'fertilizer', name: 'संतुलित NPK खत व्यवस्थापन', icon: '💧' },
-          { id: 'spray', name: 'फवारणी अनुकूल हवामान स्थिती', icon: '🌦️' },
-          { id: 'mandi', name: 'आजचे कृषी उत्पन्न बाजारभाव', icon: '💰' },
-        ];
-      case 'bn':
-        return [
-          { id: 'pest', name: 'পোকা-মাকড় ও মাজরা আক্রমণ', icon: '🐛' },
-          { id: 'disease', name: 'পাতা হলুদ হওয়া ও ছত্রাক রোগ', icon: '🍂' },
-          { id: 'fertilizer', name: 'সুষম NPK সার ও পুষ্টি', icon: '💧' },
-          { id: 'spray', name: 'স্প্রে করার উপযুক্ত আবহাওয়া', icon: '🌦️' },
-          { id: 'mandi', name: 'আজকের মান্ডি বাজার দর', icon: '💰' },
-        ];
-      default:
-        return [
-          { id: 'pest', name: 'Insect Pest or Borer Attack', icon: '🐛' },
-          { id: 'disease', name: 'Leaf Spots, Blight or Yellowing', icon: '🍂' },
-          { id: 'fertilizer', name: 'NPK Fertilizer & Soil Nutrition', icon: '💧' },
-          { id: 'spray', name: 'Safe Spray Weather & Rain Window', icon: '🌦️' },
-          { id: 'mandi', name: 'Today’s Mandi Market Price', icon: '💰' },
-        ];
-    }
-  };
-
-  const handleRunGuidedWizard = () => {
-    const crops = getCropsList();
-    const stages = getStagesList();
-    const issues = getIssuesList();
-
-    const selectedCropObj = crops.find((c) => c.id === wizardCrop) || crops[0];
-    const selectedStageObj = stages.find((s) => s.id === wizardStage) || stages[0];
-    const selectedIssueObj = issues.find((i) => i.id === wizardIssue) || issues[0];
-
-    let queryText = '';
-    if (locale === 'ta') {
-      queryText = `${selectedCropObj.name} பயிரில் ${selectedStageObj.name}யில் ${selectedIssueObj.name} உள்ளது. அதிகாரப்பூர்வ ICAR பரிந்துரை, அனுமதிக்கப்பட்ட மருந்து அளவு மற்றும் இயற்கை வழிமுறை என்ன?`;
-    } else if (locale === 'hi') {
-      queryText = `${selectedCropObj.name} फसल में ${selectedStageObj.name} में ${selectedIssueObj.name} की समस्या है। आधिकारिक ICAR पैकेज ऑफ प्रैक्टिसेज, अनुमोदित कीटनाशक मात्रा और जैविक उपचार क्या है?`;
-    } else {
-      queryText = `For ${selectedCropObj.name} at ${selectedStageObj.name}, facing ${selectedIssueObj.name}. What is the recommended ICAR package of practices, approved safe chemical dosage with PHI, and organic alternatives?`;
-    }
-
-    setShowWizard(false);
-    handleSend(queryText, wizardCrop);
-  };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    rafIdRef.current = requestAnimationFrame(() => {
+      rafIdRef.current = null;
+      if (!isAutoScrollActiveRef.current || !messagesEndRef.current) return;
+      messagesEndRef.current.scrollIntoView({
+        behavior: 'auto',
+        block: 'end',
+      });
+    });
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
+
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg?.isStreaming) {
+      scheduleAutoScroll();
+    } else {
+      scrollToBottom('smooth');
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -429,18 +184,69 @@ export function ChatAssistant({
     }
   }, [initialQuery, initialCrop]);
 
+  const toggleThought = (msgId: string) => {
+    setExpandedThoughts((prev) => ({
+      ...prev,
+      [msgId]: prev[msgId] === false ? true : false,
+    }));
+  };
+
+  const handleReset = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const currentLoc = CHAT_LOCALES[locale] || CHAT_LOCALES.en;
+    setMessages([
+      {
+        id: `welcome-${Date.now()}`,
+        role: 'assistant',
+        content: currentLoc.welcomeDesc,
+      },
+    ]);
+    setInput('');
+    setIsLoading(false);
+  };
+
+  const handleQuickMode = (mode: 'sowing' | 'mandi' | 'doctor' | 'schemes') => {
+    switch (mode) {
+      case 'sowing':
+        handleSend(locData.sowingQuery);
+        break;
+      case 'mandi':
+        if (onNavigateTab) {
+          onNavigateTab('mandi');
+        } else {
+          handleSend(locData.mandiQuery);
+        }
+        break;
+      case 'doctor':
+        if (onNavigateTab) {
+          onNavigateTab('doctor');
+        } else {
+          handleSend(locData.pestQuery);
+        }
+        break;
+      case 'schemes':
+        if (onNavigateTab) {
+          onNavigateTab('schemes');
+        } else {
+          handleSend(locData.schemesQuery);
+        }
+        break;
+    }
+  };
+
   const handleSend = async (queryText?: string, cropParam?: string) => {
     const textToSend = (queryText || input).trim();
     if (!textToSend || isLoading) return;
 
-    // Trigger conversation start callback to collapse welcome banner
+    isAutoScrollActiveRef.current = true;
     onConversationStart?.();
 
     setInput('');
     const userMessageId = `user-${Date.now()}`;
     const assistantMessageId = `assistant-${Date.now()}`;
 
-    // Add User message
     const newMessages: Message[] = [
       ...messages,
       { id: userMessageId, role: 'user', content: textToSend },
@@ -457,7 +263,6 @@ export function ChatAssistant({
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    // Set robust 25-second connection timeout
     timeoutRef.current = setTimeout(() => {
       controller.abort();
     }, 25000);
@@ -545,7 +350,6 @@ export function ChatAssistant({
         }
       }
 
-      // Finalize completed message
       setMessages((prev) =>
         prev.map((m) =>
           m.id === assistantMessageId
@@ -620,486 +424,398 @@ export function ChatAssistant({
     }));
   };
 
-  const promptPills = getPromptPills();
-
   return (
-    <div className="flex flex-col space-y-4">
-      {/* Interactive Multilingual Farmer / Agronomist Avatar Card */}
-      <div className="bg-gradient-to-r from-emerald-50 via-amber-50/60 to-green-50 border border-emerald-200/90 rounded-2xl p-3 sm:p-4 shadow-xs">
-        <FarmerAvatar
-          isSpeaking={isSpeaking}
-          isListening={isListening}
-          currentLang={locale}
-          avatarType={avatarType}
-          onToggleAvatarType={() => setAvatarType((prev) => (prev === 'farmer' ? 'scientist' : 'farmer'))}
-        />
-      </div>
+    <>
+      <div className="flex flex-col space-y-4 max-w-4xl mx-auto w-full">
+        {/* =========================================================================
+            TOP BAR ABOVE CARD: AVATAR ON LEFT, REFRESH & STATUS ON RIGHT
+           ========================================================================= */}
+        <div className="flex items-center justify-between gap-3 px-1">
+          {/* Avatar with its own interactive speech bubble & Switch */}
+          <FarmerAvatar
+            isSpeaking={isSpeaking}
+            isListening={isListening}
+            currentLang={locale}
+            avatarType={avatarType}
+            onToggleAvatarType={() =>
+              setAvatarType((prev) => (prev === 'farmer' ? 'scientist' : 'farmer'))
+            }
+          />
 
-      {/* Interactive Guided Field Diagnostic Wizard Button / Drawer */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-xs space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#edf7ed] text-[#2e7d32] flex items-center justify-center font-bold">
-              <Compass className="w-4 h-4" />
+          {/* Right Action: Clean Reset & Verified Grounding Pill */}
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#c8e6c9] text-[#2e7d32] text-xs font-semibold shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>ICAR & AGMARKNET Grounded</span>
             </div>
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-slate-900">
-                {locale === 'ta' ? 'விவசாயி வழிகாட்டி (3-படி தீர்வு)' : locale === 'hi' ? 'किसान समस्या समाधान (3-चरणीय निदान)' : 'Farmer Problem Solver (3-Step Guided Wizard)'}
-              </h3>
-              <p className="text-[11px] text-slate-500 hidden sm:block">
-                {locale === 'ta' ? 'பயிர், நிலை மற்றும் பிரச்சனையைத் தேர்ந்தெடுத்து உடனடி வழிகாட்டல் பெறவும்' : locale === 'hi' ? 'फसल, अवस्था और लक्षण चुनकर तुरंत आधिकारिक सलाह प्राप्त करें' : 'Select your crop, stage, and field problem for instant ICAR guidance'}
-              </p>
-            </div>
+
+            <button
+              type="button"
+              onClick={handleReset}
+              className="touch-target px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-1.5 shadow-2xs transition-colors border border-slate-200"
+              title="Reset conversation"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
+              <span>{locData.resetButton}</span>
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowWizard(!showWizard)}
-            className="touch-target px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs flex items-center gap-1 transition-colors"
-          >
-            <span>{showWizard ? 'Hide Wizard' : 'Open Wizard'}</span>
-            {showWizard ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-          </button>
         </div>
 
-        {/* Wizard Controls Drawer */}
-        {showWizard && (
-          <div className="pt-2 border-t border-slate-100 space-y-4 animate-in fade-in duration-150">
-            {/* Step 1: Crop */}
-            <div>
-              <span className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">
-                1. {locale === 'ta' ? 'பயிரைத் தேர்வு செய்க' : locale === 'hi' ? 'फसल चुनें' : 'Choose Your Crop'}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {getCropsList().map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    onClick={() => setWizardCrop(c.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                      wizardCrop === c.id
-                        ? 'bg-[#2e7d32] text-white shadow-xs'
-                        : 'bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700'
-                    }`}
-                  >
-                    <span>{c.icon}</span>
-                    <span>{c.name}</span>
-                  </button>
-                ))}
-              </div>
+        {/* =========================================================================
+            MAIN CHATBOT CARD CONTAINER (Fresh Nature UI Palette)
+           ========================================================================= */}
+        <div className="bg-white rounded-3xl border border-slate-200/90 shadow-md overflow-hidden flex flex-col">
+          {/* Nature Green Header Banner Matching AgriGPT Brand */}
+          <div className="bg-gradient-to-r from-[#1b4332] via-[#245e3f] to-[#1b4332] px-5 sm:px-6 py-3.5 flex items-center justify-between text-white border-b border-emerald-900/30 shadow-xs">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+              <h2 className="text-xs sm:text-sm font-bold tracking-wide text-white">
+                AgriGPT • {locData.modeName}
+              </h2>
             </div>
-
-            {/* Step 2: Growth Stage */}
-            <div>
-              <span className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">
-                2. {locale === 'ta' ? 'வளர்ச்சி நிலை' : locale === 'hi' ? 'विकास अवस्था' : 'Current Growth Stage'}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {getStagesList().map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => setWizardStage(s.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                      wizardStage === s.id
-                        ? 'bg-[#2e7d32] text-white shadow-xs'
-                        : 'bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700'
-                    }`}
-                  >
-                    <span>{s.icon}</span>
-                    <span>{s.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Step 3: Issue */}
-            <div>
-              <span className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">
-                3. {locale === 'ta' ? 'எதிர்கொள்ளும் பிரச்சனை' : locale === 'hi' ? 'मुख्य समस्या' : 'What is the Problem?'}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {getIssuesList().map((i) => (
-                  <button
-                    key={i.id}
-                    type="button"
-                    onClick={() => setWizardIssue(i.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                      wizardIssue === i.id
-                        ? 'bg-[#2e7d32] text-white shadow-xs'
-                        : 'bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700'
-                    }`}
-                  >
-                    <span>{i.icon}</span>
-                    <span>{i.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Trigger Button */}
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={handleRunGuidedWizard}
-                disabled={isLoading}
-                className="touch-target w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#2e7d32] hover:bg-[#1b5e20] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs transition-colors disabled:opacity-50"
-              >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>{locale === 'ta' ? 'அதிகாரப்பூர்வ ஆலோசனை பெறுக →' : locale === 'hi' ? 'आधिकारिक कृषि परामर्श प्राप्त करें →' : 'Get Verified ICAR Guidance →'}</span>
-              </button>
+            <div className="flex items-center gap-1.5 text-[11px] text-emerald-200 font-medium">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span className="hidden xs:inline">Official ICAR Package of Practices</span>
             </div>
           </div>
-        )}
-      </div>
 
-      {/* Quick Suggested Prompts Horizontal Bar */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" aria-label="Suggested Queries">
-        {promptPills.map((pill, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => handleSend(pill.query, pill.crop)}
-            disabled={isLoading}
-            className="touch-target flex-shrink-0 text-xs px-3.5 py-1.5 rounded-full bg-white border border-slate-200 hover:border-[#2e7d32] text-slate-700 hover:text-[#2e7d32] font-medium transition-colors disabled:opacity-50 shadow-xs"
-          >
-            {pill.label}
-          </button>
-        ))}
-      </div>
+          {/* Messages Scroll Area */}
+          <div className="p-4 sm:p-6 space-y-4 min-h-[340px] max-h-[600px] overflow-y-auto bg-gradient-to-b from-[#fbfdfb] via-white to-[#f7fbf8]">
+            {messages.map((message) => {
+              const isUser = message.role === 'user';
+              const isWelcome = message.id.startsWith('welcome');
+              const safety = message.groundingMetadata?.safety_status;
 
-      {/* Messages Scroll Area */}
-      <div className="space-y-4 min-h-[300px] pb-6">
-        {messages.map((message) => {
-          const isUser = message.role === 'user';
-          const safety = message.groundingMetadata?.safety_status;
-          const isWelcomeGreeting = message.id === 'welcome-1';
-
-          return (
-            <div
-              key={message.id}
-              className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
-            >
-              <div
-                className={`max-w-[96%] sm:max-w-[88%] rounded-2xl px-5 py-4 shadow-xs ${
-                  isUser
-                    ? 'bg-[#2e7d32] text-white rounded-tr-none'
-                    : 'bg-white border border-slate-200/90 text-slate-800 rounded-tl-none'
-                }`}
-              >
-                {/* Assistant Trust Header Badge (Only for retrieved answers, not welcome greeting) */}
-                {!isUser && !isWelcomeGreeting && message.groundingMetadata && (
-                  <div className="mb-3 pb-2.5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
-                    {safety === 'SAFE' && message.citations && message.citations.length > 0 && (
-                      <span className="inline-flex items-center gap-1 font-semibold text-[#2e7d32] bg-[#edf7ed] px-2.5 py-0.5 rounded-md border border-[#c8e6c9]">
-                        <ShieldCheck className="w-3.5 h-3.5 text-[#2e7d32]" />
-                        <span>{t('chat.groundedBadge')}</span>
-                      </span>
-                    )}
-
-                    {safety === 'STATUTORY_REFUSAL' && (
-                      <span className="inline-flex items-center gap-1 font-semibold text-amber-900 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200">
-                        <ShieldAlert className="w-3.5 h-3.5 text-amber-700" />
-                        <span>{t('chat.statutoryRefusal')}</span>
-                      </span>
-                    )}
-
-                    {safety === 'FAIL_CLOSED_UNGROUNDED' && (
-                      <span className="inline-flex items-center gap-1 font-semibold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-md border border-slate-300">
-                        <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                        <span>{t('chat.ungroundedRefusal')}</span>
-                      </span>
-                    )}
-
-                    {/* Grounding Source Label */}
-                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
-                      <Sparkles className="w-3 h-3 text-[#2e7d32]" />
-                      <span>ICAR Grounded</span>
-                    </span>
-                  </div>
-                )}
-
-                {/* Thought Process (DeepSeek R1 / ChatGPT o-series reasoning display) */}
-                {!isUser && !isWelcomeGreeting && (message.thoughtProcess || message.isStreaming) && (
-                  <div className="mb-3.5 rounded-xl bg-slate-50 border border-slate-200/80 overflow-hidden text-xs">
-                    <button
-                      type="button"
-                      onClick={() => toggleThought(message.id)}
-                      className="w-full px-3.5 py-2.5 flex items-center justify-between bg-slate-100/70 hover:bg-slate-100 text-slate-800 font-semibold transition-colors text-left"
-                      aria-expanded={expandedThoughts[message.id] !== false}
-                    >
+              if (isWelcome) {
+                return (
+                  <div key={message.id} className="flex items-start gap-3 animate-in fade-in duration-200">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#edf7ed] border border-[#c8e6c9] text-[#2e7d32] flex items-center justify-center shrink-0 shadow-2xs mt-1">
+                      <Bot className="w-5 h-5 text-[#2e7d32]" />
+                    </div>
+                    <div className="flex-1 bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-6 shadow-xs space-y-3">
                       <div className="flex items-center gap-2">
-                        <Brain className="w-3.5 h-3.5 text-[#2e7d32]" />
-                        <span className="font-semibold text-xs text-slate-800">
-                          {message.isStreaming && !message.content ? 'Reasoning crop conditions & CIBRC safety guidelines...' : `🧠 Thought Process (${message.thoughtDuration || '1.2'}s reasoning)`}
+                        <span className="text-sm sm:text-base font-extrabold text-slate-900">
+                          {locData.welcomeTitle}
                         </span>
                       </div>
-                      {expandedThoughts[message.id] === false ? (
-                        <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
-                      ) : (
-                        <ChevronUp className="w-3.5 h-3.5 text-slate-500" />
-                      )}
-                    </button>
-                    {expandedThoughts[message.id] !== false && (
-                      <div className="p-3.5 text-[11px] font-mono leading-relaxed text-slate-700 whitespace-pre-line bg-slate-50/80 border-t border-slate-200/60">
-                        {message.thoughtProcess || (
-                          <div className="flex items-center gap-2 text-slate-600 animate-pulse">
-                            <Loader2 className="w-3.5 h-3.5 animate-spin text-[#2e7d32]" />
-                            <span>Auditing 342 CIBRC registered substances & cross-referencing ICAR agronomy...</span>
+                      <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        {message.content}
+                      </p>
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span className="text-[11px] font-medium text-slate-500">
+                          {locData.groundedSource}
+                        </span>
+                        <SpeakButton
+                          text={message.content}
+                          locale={locale}
+                          onPlayingChange={setIsSpeaking}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <div
+                  key={message.id}
+                  className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} animate-in fade-in duration-150`}
+                >
+                  <div
+                    className={`max-w-[94%] sm:max-w-[86%] rounded-3xl px-5 py-4 shadow-xs ${
+                      isUser
+                        ? 'bg-[#2e7d32] text-white rounded-tr-none'
+                        : 'bg-white border border-slate-200/90 text-slate-800 rounded-tl-none'
+                    }`}
+                  >
+                    {/* Safety Status Header */}
+                    {!isUser && message.groundingMetadata && (
+                      <div className="mb-3 pb-2.5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+                        {safety === 'SAFE' && message.citations && message.citations.length > 0 && (
+                          <span className="inline-flex items-center gap-1 font-semibold text-[#2e7d32] bg-[#edf7ed] px-2.5 py-0.5 rounded-md border border-[#c8e6c9]">
+                            <ShieldCheck className="w-3.5 h-3.5 text-[#2e7d32]" />
+                            <span>{t('chat.groundedBadge')}</span>
+                          </span>
+                        )}
+
+                        {safety === 'STATUTORY_REFUSAL' && (
+                          <span className="inline-flex items-center gap-1 font-semibold text-amber-900 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200">
+                            <ShieldAlert className="w-3.5 h-3.5 text-amber-700" />
+                            <span>{t('chat.statutoryRefusal')}</span>
+                          </span>
+                        )}
+
+                        {safety === 'FAIL_CLOSED_UNGROUNDED' && (
+                          <span className="inline-flex items-center gap-1 font-semibold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-md border border-slate-300">
+                            <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                            <span>{t('chat.ungroundedRefusal')}</span>
+                          </span>
+                        )}
+
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                          <Sparkles className="w-3 h-3 text-[#2e7d32]" />
+                          <span>ICAR Grounded</span>
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Thought Process Drawer (Clean & Collapsed by Default) */}
+                    {!isUser && (message.thoughtProcess || message.isStreaming) && (
+                      <div className="mb-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 overflow-hidden text-xs">
+                        <button
+                          type="button"
+                          onClick={() => toggleThought(message.id)}
+                          className="w-full px-3.5 py-2 flex items-center justify-between bg-slate-100/70 hover:bg-slate-100 text-slate-800 font-semibold transition-colors text-left"
+                          aria-expanded={expandedThoughts[message.id] === true}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Brain className="w-3.5 h-3.5 text-[#2e7d32]" />
+                            <span className="font-semibold text-xs text-slate-800">
+                              {message.isStreaming && !message.content
+                                ? 'Reasoning crop conditions & CIBRC safety guidelines...'
+                                : `🧠 AI Agronomic Reasoning (${message.thoughtDuration || '1.2'}s)`}
+                            </span>
+                          </div>
+                          {expandedThoughts[message.id] === true ? (
+                            <ChevronUp className="w-3.5 h-3.5 text-slate-500" />
+                          ) : (
+                            <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                          )}
+                        </button>
+                        {expandedThoughts[message.id] === true && (
+                          <div className="p-3 text-[11px] font-mono leading-relaxed text-slate-700 whitespace-pre-line bg-slate-50/80 border-t border-slate-200/60 animate-in fade-in duration-150">
+                            {message.thoughtProcess || (
+                              <div className="flex items-center gap-2 text-slate-600 animate-pulse">
+                                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#2e7d32]" />
+                                <span>Auditing 342 CIBRC registered substances & cross-referencing ICAR agronomy...</span>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
                     )}
-                  </div>
-                )}
 
-                {/* Message Content */}
-                <div className="text-sm sm:text-base leading-relaxed whitespace-pre-line text-slate-800">
-                  {message.content}
-                  {message.isStreaming && (
-                    <span className="inline-block w-2 h-4 ml-1 bg-[#2e7d32] animate-pulse align-middle" />
-                  )}
-                </div>
-
-                {/* Statutory Gazette Alert */}
-                {message.groundingMetadata?.statutory_gazette_reference && (
-                  <div className="mt-3.5 p-3 rounded-xl bg-amber-50/90 border border-amber-200 text-xs text-amber-950 flex items-start gap-2">
-                    <Info className="w-4 h-4 text-amber-700 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-bold">Statutory Authority Notice:</p>
-                      <p className="text-[11px] text-amber-900 mt-0.5 leading-normal">
-                        {message.groundingMetadata.statutory_gazette_reference}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Expandable Citations Drawer */}
-                {!isUser && message.citations && message.citations.length > 0 && (
-                  <div className="mt-3.5 pt-2.5 border-t border-slate-100">
-                    <button
-                      type="button"
-                      onClick={() => toggleCitation(message.id)}
-                      className="touch-target inline-flex items-center gap-1.5 text-xs font-semibold text-[#2e7d32] hover:text-[#1b5e20] transition-colors"
-                      aria-expanded={expandedCitations[message.id]}
-                    >
-                      <BookOpen className="w-3.5 h-3.5 text-[#2e7d32]" />
-                      <span>
-                        {message.citations.length} {t('chat.citations')}
-                        {message.citations.length > 1 ? 's' : ''}
-                      </span>
-                      {expandedCitations[message.id] ? (
-                        <ChevronUp className="w-3.5 h-3.5" />
-                      ) : (
-                        <ChevronDown className="w-3.5 h-3.5" />
+                    {/* Message Content */}
+                    <div className="text-sm sm:text-base leading-relaxed whitespace-pre-line">
+                      {message.content}
+                      {message.isStreaming && (
+                        <span className="inline-block w-2 h-4 ml-1 bg-[#2e7d32] animate-pulse align-middle" />
                       )}
-                    </button>
+                    </div>
 
-                    {expandedCitations[message.id] && (
-                      <div className="mt-2 space-y-2">
-                        {message.citations.map((cite, cIdx) => (
-                          <div
-                            key={cIdx}
-                            className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 space-y-1"
-                          >
-                            <div className="flex items-start justify-between gap-2">
-                              <span className="font-semibold text-slate-900">{cite.institution}</span>
-                              <span className="text-[10px] bg-slate-200/80 text-slate-700 px-1.5 py-0.5 rounded font-mono font-medium">
-                                {cite.publication_year}
-                              </span>
-                            </div>
-                            <p className="text-slate-600 font-medium italic">{cite.doc_title}</p>
-                            <p className="text-slate-700 text-[11px]">
-                              <strong>Section:</strong> {cite.section}
-                            </p>
-                            {cite.source_url && (
-                              <a
-                                href={cite.source_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] text-[#2e7d32] hover:underline font-semibold pt-0.5"
+                    {/* Citations Drawer */}
+                    {!isUser && message.citations && message.citations.length > 0 && (
+                      <div className="mt-3.5 pt-2.5 border-t border-slate-100">
+                        <button
+                          type="button"
+                          onClick={() => toggleCitation(message.id)}
+                          className="touch-target inline-flex items-center gap-1.5 text-xs font-semibold text-[#2e7d32] hover:text-[#1b5e20] transition-colors"
+                          aria-expanded={expandedCitations[message.id]}
+                        >
+                          <BookOpen className="w-3.5 h-3.5 text-[#2e7d32]" />
+                          <span>
+                            {message.citations.length} {t('chat.citations')}
+                            {message.citations.length > 1 ? 's' : ''}
+                          </span>
+                          {expandedCitations[message.id] ? (
+                            <ChevronUp className="w-3.5 h-3.5" />
+                          ) : (
+                            <ChevronDown className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+
+                        {expandedCitations[message.id] && (
+                          <div className="mt-2 space-y-2">
+                            {message.citations.map((cite, cIdx) => (
+                              <div
+                                key={cIdx}
+                                className="p-3 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 space-y-1"
                               >
-                                <span>{t('chat.officialLink')}</span>
-                                <ExternalLink className="w-3 h-3" />
-                              </a>
-                            )}
+                                <div className="flex items-start justify-between gap-2">
+                                  <span className="font-semibold text-slate-900">{cite.institution}</span>
+                                  <span className="text-[10px] bg-slate-200/80 text-slate-700 px-1.5 py-0.5 rounded font-mono font-medium">
+                                    {cite.publication_year}
+                                  </span>
+                                </div>
+                                <p className="text-slate-600 font-medium italic">{cite.doc_title}</p>
+                                <p className="text-slate-700 text-[11px]">
+                                  <strong>Section:</strong> {cite.section}
+                                </p>
+                                {cite.source_url && (
+                                  <a
+                                    href={cite.source_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-[11px] text-[#2e7d32] hover:underline font-semibold pt-0.5"
+                                  >
+                                    <span>{t('chat.officialLink')}</span>
+                                    <ExternalLink className="w-3 h-3" />
+                                  </a>
+                                )}
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        )}
+                      </div>
+                    )}
+
+                    {/* Listen Audio Read-Aloud Button & 1-Click Action Chips */}
+                    {!isUser && !message.isStreaming && message.content && (
+                      <div className="mt-3.5 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+                        <SpeakButton
+                          text={message.content}
+                          locale={locale}
+                          onPlayingChange={setIsSpeaking}
+                        />
+
+                        {/* Interactive Follow-up Action Chips */}
+                        <div className="flex flex-wrap items-center gap-1.5 ml-auto">
+                          <button
+                            type="button"
+                            onClick={() => handleSend(`${message.content.slice(0, 35)}... ${locData.sowingAdvisor}?`)}
+                            className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-colors shadow-2xs"
+                          >
+                            {locData.sowingAdvisor}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleSend(`${message.content.slice(0, 35)}... What is the 100% Organic alternative?`)}
+                            className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition-colors shadow-2xs"
+                          >
+                            🌿 100% Organic
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleSend(`${message.content.slice(0, 35)}... Pre-Harvest Interval (PHI) waiting period?`)}
+                            className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 transition-colors shadow-2xs"
+                          >
+                            ⏳ PHI Days
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Error & Retry Button */}
+                    {message.error && (
+                      <div className="mt-2.5 pt-2 border-t border-red-100 flex items-center justify-between">
+                        <span className="text-xs text-red-600 font-medium">{t('chat.failedResponse')}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user');
+                            if (lastUserMsg) handleRetry(lastUserMsg.content);
+                          }}
+                          className="touch-target inline-flex items-center gap-1 text-xs text-[#2e7d32] font-semibold hover:underline"
+                        >
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span>{t('chat.retry')}</span>
+                        </button>
                       </div>
                     )}
                   </div>
-                )}
+                </div>
+              );
+            })}
+            <div ref={messagesEndRef} className="h-4 scroll-mb-28 md:scroll-mb-20 pointer-events-none" aria-hidden="true" />
+          </div>
 
-                {/* Read Aloud TTS Playback */}
-                {!isUser && !message.isStreaming && message.content && (
-                  <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between">
-                    <SpeakButton
-                      text={message.content}
-                      locale={locale}
-                      onPlayingChange={setIsSpeaking}
-                    />
-                  </div>
-                )}
+          {/* Quick Modes Chips Row */}
+          <div className="px-4 sm:px-6 py-2.5 bg-slate-50 border-t border-slate-200/80 flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1 mr-1">
+              <Zap className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+              <span>{locData.quickModesLabel}</span>
+            </span>
 
-                {/* Farmer Quick Actions */}
-                {!isUser && !isWelcomeGreeting && !message.isStreaming && (
-                  <div className="mt-3.5 pt-2.5 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-xs">
-                    {onNavigateTab && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => onNavigateTab('mandi')}
-                          className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 text-[11px] font-semibold flex items-center gap-1 transition-colors"
-                        >
-                          <span>🌾 Today's Mandi Rate</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => onNavigateTab('weather')}
-                          className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 text-[11px] font-semibold flex items-center gap-1 transition-colors"
-                        >
-                          <span>🌦️ Spray Weather</span>
-                        </button>
-                      </>
-                    )}
-                    <a
-                      href="tel:18001801551"
-                      className="px-2.5 py-1 rounded-lg bg-[#2e7d32] text-white hover:bg-[#1b5e20] text-[11px] font-semibold flex items-center gap-1 transition-colors ml-auto"
-                    >
-                      <span>📞 Kisan Helpline</span>
-                    </a>
-                  </div>
-                )}
-
-                {/* Interactive Field Situation Clarification Chips */}
-                {!isUser && !isWelcomeGreeting && !message.isStreaming && message.content && (
-                  <div className="mt-3.5 p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-                    <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
-                      <span className="flex items-center gap-1.5">
-                        <Sliders className="w-3.5 h-3.5 text-[#2e7d32]" />
-                        <span>Refine for your field conditions:</span>
-                      </span>
-                      <span className="text-[10px] text-slate-500 font-medium">1-Click</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => handleSend(`${message.content.slice(0, 45)}... What is the specific dosage and care for Seedling stage (15-30 days)?`)}
-                        className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-medium transition-colors"
-                      >
-                        🌱 Seedling Stage
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSend(`${message.content.slice(0, 45)}... What is the specific dosage and spray schedule for Vegetative growth stage?`)}
-                        className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-medium transition-colors"
-                      >
-                        🌿 Vegetative Stage
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSend(`${message.content.slice(0, 45)}... How to apply this through Drip Fertigation system?`)}
-                        className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-medium transition-colors"
-                      >
-                        💧 Drip Fertigation
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSend(`${message.content.slice(0, 45)}... What is the 100% Organic natural farming alternative (Jeevamrutha/Neem)?`)}
-                        className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-medium transition-colors"
-                      >
-                        🌿 100% Organic Option
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSend(`${message.content.slice(0, 45)}... What is the Pre-Harvest Waiting Period (PHI) before safe picking?`)}
-                        className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-medium transition-colors"
-                      >
-                        ⏳ Waiting Period (PHI)
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Field Disclaimer */}
-                {!isUser && message.fieldDisclaimer && !message.isStreaming && (
-                  <p className="mt-2 text-[10px] text-slate-400 italic">
-                    {message.fieldDisclaimer}
-                  </p>
-                )}
-
-                {/* Error & Retry Button */}
-                {message.error && (
-                  <div className="mt-2.5 pt-2 border-t border-red-100 flex items-center justify-between">
-                    <span className="text-xs text-red-600 font-medium">{t('chat.failedResponse')}</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user');
-                        if (lastUserMsg) handleRetry(lastUserMsg.content);
-                      }}
-                      className="touch-target inline-flex items-center gap-1 text-xs text-[#2e7d32] font-semibold hover:underline"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>{t('chat.retry')}</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Accessible Sticky Input Form Bar */}
-      <div className="sticky bottom-16 md:bottom-2 z-20 bg-[#F8FAF7]/95 backdrop-blur-md pt-2 pb-2 border-t border-slate-200/60">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className="relative flex items-center gap-2"
-        >
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={t('chat.placeholder')}
-            disabled={isLoading}
-            className="flex-1 h-12 px-4 rounded-xl border border-slate-300 bg-white shadow-xs text-sm focus:outline-none focus:ring-2 focus:ring-[#2e7d32] focus:border-transparent disabled:bg-slate-50 transition-all placeholder:text-slate-400 text-slate-800"
-          />
-
-          {/* Vernacular Speech-to-Text Button */}
-          <VoiceInputButton
-            onTranscript={(spoken) => setInput((prev) => (prev ? `${prev} ${spoken}` : spoken))}
-            onListeningChange={setIsListening}
-            disabled={isLoading}
-          />
-
-          {isLoading ? (
             <button
               type="button"
-              onClick={handleCancel}
-              className="touch-target h-12 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm flex items-center justify-center gap-1.5 shadow-xs transition-colors"
-              title={t('chat.stop')}
-              aria-label={t('chat.stop')}
+              onClick={() => handleQuickMode('sowing')}
+              disabled={isLoading}
+              className="touch-target px-3 py-1.5 rounded-full bg-white hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-slate-800 text-xs font-semibold shadow-2xs transition-all active:scale-95 disabled:opacity-50"
             >
-              <Square className="w-4 h-4 fill-white" />
-              <span className="hidden sm:inline">{t('chat.stop')}</span>
+              {locData.sowingAdvisor}
             </button>
-          ) : (
+
             <button
-              type="submit"
-              disabled={!input.trim()}
-              className="touch-target h-12 px-4 rounded-xl bg-[#2e7d32] hover:bg-[#1b5e20] text-white font-semibold text-sm flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-40 disabled:hover:bg-[#2e7d32] transition-colors"
-              aria-label={t('chat.send')}
+              type="button"
+              onClick={() => handleQuickMode('mandi')}
+              disabled={isLoading}
+              className="touch-target px-3 py-1.5 rounded-full bg-white hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-slate-800 text-xs font-semibold shadow-2xs transition-all active:scale-95 disabled:opacity-50"
             >
-              <Send className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('chat.send')}</span>
+              {locData.mandiRates}
             </button>
-          )}
-        </form>
+
+            <button
+              type="button"
+              onClick={() => handleQuickMode('doctor')}
+              disabled={isLoading}
+              className="touch-target px-3 py-1.5 rounded-full bg-white hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-slate-800 text-xs font-semibold shadow-2xs transition-all active:scale-95 disabled:opacity-50"
+            >
+              {locData.pestDoctor}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleQuickMode('schemes')}
+              disabled={isLoading}
+              className="touch-target px-3 py-1.5 rounded-full bg-white hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-slate-800 text-xs font-semibold shadow-2xs transition-all active:scale-95 disabled:opacity-50"
+            >
+              {locData.govtSchemes}
+            </button>
+          </div>
+
+          {/* Accessible Input Form Bar */}
+          <div className="p-3 sm:p-4 bg-white border-t border-slate-200/80">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+              className="relative flex items-center gap-2 sm:gap-3"
+            >
+              {/* Prominent Circular Voice Mic Button */}
+              <VoiceInputButton
+                onTranscript={(spoken) => setInput((prev) => (prev ? `${prev} ${spoken}` : spoken))}
+                onListeningChange={setIsListening}
+                disabled={isLoading}
+              />
+
+              {/* Text Input Field */}
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={locData.placeholder}
+                disabled={isLoading}
+                className="flex-1 h-12 px-4 rounded-2xl border border-slate-300 bg-white shadow-2xs text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#2e7d32] focus:border-transparent disabled:bg-slate-50 transition-all placeholder:text-slate-400 text-slate-900"
+              />
+
+              {/* Stop / Ask Button */}
+              {isLoading ? (
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="touch-target h-12 px-5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm flex items-center justify-center gap-1.5 shadow-xs transition-colors shrink-0"
+                  title="Stop"
+                  aria-label="Stop"
+                >
+                  <Square className="w-4 h-4 fill-white" />
+                  <span className="hidden sm:inline">Stop</span>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={!input.trim()}
+                  className="touch-target h-12 px-5 rounded-2xl bg-[#2e7d32] hover:bg-[#256629] text-white font-bold text-sm flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-40 disabled:hover:bg-[#2e7d32] transition-colors shrink-0"
+                  aria-label={locData.askButton}
+                >
+                  <span>{locData.askButton}</span>
+                  <Send className="w-4 h-4" />
+                </button>
+              )}
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

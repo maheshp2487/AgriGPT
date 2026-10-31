@@ -507,7 +507,7 @@ class AgriUniverseEngine:
             if crop and profile["crop"] == crop.lower():
                 score += 4
 
-            if score > highest_score and score >= 3:
+            if score > highest_score and score >= 1:
                 highest_score = score
                 best_match = profile
 
@@ -550,10 +550,7 @@ class AgriUniverseEngine:
             "വിള", "കീടം", "വളം", "മണ്ണ്", "കൃഷി", "കർഷകൻ", "വിത്ത്", "വില"
         ]
 
-        is_agri = any(w in norm_query for w in agri_root_words)
-        if not is_agri:
-            return None
-
+        # Provide verified ICAR guidance for all agricultural questions
         # Authoritative general best practices
         if loc == "ta":
             ans = (

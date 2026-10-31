@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, Loader2 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface SpeakButtonProps {
   text: string;
   locale: string;
   onPlayingChange?: (isPlaying: boolean) => void;
+  variant?: 'pill' | 'compact';
 }
 
 const BCP47_LOCALE_MAP: Record<string, string> = {
@@ -21,134 +23,172 @@ const BCP47_LOCALE_MAP: Record<string, string> = {
   en: 'en-IN',
 };
 
-const TTS_LANG_MAP: Record<string, string> = {
-  ta: 'ta',
-  hi: 'hi',
-  te: 'te',
-  kn: 'kn',
-  ml: 'ml',
-  pa: 'pa',
-  mr: 'mr',
-  bn: 'bn',
-  en: 'en',
+const LISTEN_LABELS: Record<string, { listen: string; stop: string }> = {
+  ta: { listen: 'ஆடியோ கேட்க', stop: 'நிறுத்த' },
+  hi: { listen: 'ऑडियो सुनें', stop: 'रोकें' },
+  te: { listen: 'ఆడియో వినండి', stop: 'ఆపండి' },
+  kn: { listen: 'ಆಡಿಯೋ ಕೇಳಿ', stop: 'ನಿಲ್ಲಿಸಿ' },
+  ml: { listen: 'ശബ്ദം കേൾക്കൂ', stop: 'നിർത്തൂ' },
+  pa: { listen: 'ਆਡੀਓ ਸੁਣੋ', stop: 'ਰੋਕੋ' },
+  mr: { listen: 'ऑडिओ ऐका', stop: 'थांबवा' },
+  bn: { listen: 'অডিও শুনুন', stop: 'বন্ধ করুন' },
+  en: { listen: 'Listen Audio', stop: 'Stop Audio' },
 };
 
-export function SpeakButton({ text, locale, onPlayingChange }: SpeakButtonProps) {
+export function SpeakButton({
+  text,
+  locale,
+  onPlayingChange,
+  variant = 'pill',
+}: SpeakButtonProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const resumeIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const notifyPlaying = (playing: boolean) => {
     setIsPlaying(playing);
     onPlayingChange?.(playing);
+    if (!playing && resumeIntervalRef.current) {
+      clearInterval(resumeIntervalRef.current);
+      resumeIntervalRef.current = null;
+    }
   };
 
-  const stopAllAudio = () => {
+  const stopAudio = () => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        // ignore
+      }
     }
     notifyPlaying(false);
     setIsLoading(false);
   };
 
-  const handleToggleSpeak = async () => {
+  useEffect(() => {
+    // Pre-warm browser voices table
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+      const handleVoices = () => {
+        window.speechSynthesis.getVoices();
+      };
+      window.speechSynthesis.onvoiceschanged = handleVoices;
+      return () => {
+        window.speechSynthesis.onvoiceschanged = null;
+        stopAudio();
+      };
+    }
+  }, []);
+
+  const handleToggleSpeak = () => {
     if (isPlaying || isLoading) {
-      stopAllAudio();
+      stopAudio();
       return;
     }
 
-    stopAllAudio();
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      alert('Text-to-speech is not supported on this browser.');
+      return;
+    }
 
-    // Clean markdown asterisks and URLs for cleaner spoken audio
+    stopAudio();
+
+    // Clean markdown asterisks, hashes, backticks, bullet characters and URLs for natural speech
     const cleanText = text
       .replace(/[*_#`~]/g, '')
       .replace(/https?:\/\/\S+/g, '')
-      .replace(/[•●■]/g, ', ')
+      .replace(/[•●■▶→]/g, ', ')
+      .replace(/\n+/g, '. ')
       .trim();
 
     if (!cleanText) return;
 
-    const shortSnippet = cleanText.slice(0, 180);
-    const langCode = TTS_LANG_MAP[locale] || 'en';
-
-    // Strategy 1: Attempt native SpeechSynthesis if available
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const voices = window.speechSynthesis.getVoices();
-      const targetPrefix = BCP47_LOCALE_MAP[locale]?.split('-')[0] || 'en';
-      const hasNativeVoice = voices.some((v) => v.lang.startsWith(targetPrefix));
-
-      if (hasNativeVoice) {
-        const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.lang = BCP47_LOCALE_MAP[locale] || 'en-IN';
-        utterance.rate = 0.95;
-        const matchingVoice = voices.find((v) => v.lang.startsWith(targetPrefix));
-        if (matchingVoice) utterance.voice = matchingVoice;
-
-        utterance.onstart = () => notifyPlaying(true);
-        utterance.onend = () => notifyPlaying(false);
-        utterance.onerror = () => notifyPlaying(false);
-
-        window.speechSynthesis.speak(utterance);
-        return;
-      }
-    }
-
-    // Strategy 2: High-definition Server-side TTS Audio Proxy (/api/tts)
-    setIsLoading(true);
     try {
-      const audioUrl = `/api/tts?q=${encodeURIComponent(shortSnippet)}&tl=${encodeURIComponent(langCode)}`;
-      const audio = new Audio(audioUrl);
-      audioRef.current = audio;
+      setIsLoading(true);
 
-      audio.onplay = () => {
+      const targetBcp47 = BCP47_LOCALE_MAP[locale] || 'en-IN';
+      const targetPrefix = targetBcp47.split('-')[0];
+
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.lang = targetBcp47;
+      utterance.rate = 0.92; // Natural advisory pace for farmers
+      utterance.pitch = 1.0;
+
+      // Select regional voice if available
+      const voices = window.speechSynthesis.getVoices();
+      if (voices && voices.length > 0) {
+        const exactVoice = voices.find((v) => v.lang.replace('_', '-').toLowerCase() === targetBcp47.toLowerCase());
+        const prefixVoice = voices.find((v) => v.lang.toLowerCase().startsWith(targetPrefix));
+        if (exactVoice) {
+          utterance.voice = exactVoice;
+        } else if (prefixVoice) {
+          utterance.voice = prefixVoice;
+        }
+      }
+
+      utterance.onstart = () => {
         setIsLoading(false);
         notifyPlaying(true);
       };
-      audio.onended = () => {
-        notifyPlaying(false);
-      };
-      audio.onerror = () => {
-        setIsLoading(false);
+
+      utterance.onend = () => {
         notifyPlaying(false);
       };
 
-      await audio.play();
-    } catch {
-      setIsLoading(false);
+      utterance.onerror = (e) => {
+        // 'interrupted' is normal when user hits stop
+        if (e.error !== 'interrupted' && e.error !== 'canceled') {
+          console.warn('SpeechSynthesis error:', e.error);
+        }
+        notifyPlaying(false);
+      };
+
+      // Chrome long-speech workaround: Chrome pauses speech after 14 seconds unless resume is called
+      if (resumeIntervalRef.current) clearInterval(resumeIntervalRef.current);
+      resumeIntervalRef.current = setInterval(() => {
+        if (window.speechSynthesis.speaking) {
+          window.speechSynthesis.pause();
+          window.speechSynthesis.resume();
+        } else {
+          if (resumeIntervalRef.current) clearInterval(resumeIntervalRef.current);
+        }
+      }, 10000);
+
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.warn('Failed to start SpeechSynthesis:', err);
       notifyPlaying(false);
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    return () => {
-      stopAllAudio();
-    };
-  }, []);
+  const labels = LISTEN_LABELS[locale] || LISTEN_LABELS.en;
 
   return (
     <button
       type="button"
       onClick={handleToggleSpeak}
-      aria-label={isPlaying ? 'Stop read-aloud' : 'Read aloud in your language'}
-      title={isPlaying ? 'Stop read-aloud' : 'Listen to advisory'}
-      className={`touch-target inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+      aria-label={isPlaying ? labels.stop : labels.listen}
+      title={isPlaying ? labels.stop : labels.listen}
+      className={`touch-target inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-95 ${
         isPlaying
-          ? 'bg-emerald-700 text-white shadow-xs animate-pulse'
-          : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200'
+          ? 'bg-emerald-700 text-white shadow-emerald-700/20 ring-2 ring-emerald-400/50 animate-pulse'
+          : 'bg-[#edf7ed] hover:bg-[#e0f2e1] text-[#2e7d32] border border-[#c8e6c9]'
       }`}
     >
       {isLoading ? (
-        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#2e7d32]" />
       ) : isPlaying ? (
-        <VolumeX className="w-3.5 h-3.5 text-white" />
+        <div className="flex items-end gap-0.5 h-3">
+          <span className="w-0.5 bg-white rounded-full animate-pulse h-2" />
+          <span className="w-0.5 bg-white rounded-full animate-pulse h-3" />
+          <span className="w-0.5 bg-white rounded-full animate-pulse h-2.5" />
+        </div>
       ) : (
-        <Volume2 className="w-3.5 h-3.5 text-emerald-700" />
+        <Volume2 className="w-3.5 h-3.5 text-[#2e7d32]" />
       )}
-      <span>{isLoading ? 'Loading...' : isPlaying ? 'Stop' : 'Listen'}</span>
+      <span>{isLoading ? '...' : isPlaying ? labels.stop : labels.listen}</span>
     </button>
   );
 }

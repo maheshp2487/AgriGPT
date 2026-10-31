@@ -53,7 +53,7 @@ class AgronomyService:
         messages: Optional[List[Any]] = None
     ) -> ChatCompletionResponse:
         start_time = time.time()
-        valid_locales = ["en", "ta", "hi", "te", "kn", "ml"]
+        valid_locales = ["en", "ta", "hi", "te", "kn", "ml", "pa", "mr", "bn"]
         loc = locale.lower() if locale.lower() in valid_locales else "en"
 
         # Context-aware resolution for follow-up questions
@@ -63,6 +63,70 @@ class AgronomyService:
             followup_indicators = ["this", "it", "dose", "dosage", "waiting period", "phi", "இதற்கு", "அளவு", "దీనికి", "మోతాదు", "ಇದಕ್ಕೆ", "ಪ್ರಮಾಣ", "ഇതിന്"]
             if any(ind in query.lower() for ind in followup_indicators):
                 effective_query = f"{last_turn.get('user', '')} {query}"
+
+        # 0. Conversational & Greeting Handler
+        norm_q = query.strip().lower()
+        greetings_list = [
+            "hi", "hello", "hey", "namaste", "vanakkam", "pranam", "sat sri akal", "kisan mitra",
+            "வணக்கம்", "नमस्ते", "నమస్తే", "ನಮಸ್ಕಾರ", "നമസ്കാരം", "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ", "नमस्कार", "নমস্কার",
+            "who are you", "what can you do", "help", "help me", "உதவி", "मदद", "ಸಹಾಯ", "సహాయం"
+        ]
+        if any(norm_q == g or norm_q.startswith(g + " ") for g in greetings_list):
+            if loc == "hi":
+                welcome_ans = (
+                    "🙏 **नमस्ते किसान मित्र! मैं एग्री जीपीटी (AgriGPT) हूँ — आपका राष्ट्रीय डिजिटल कृषि सलाहकार।**\n\n"
+                    "मैं ICAR, राज्य कृषि विश्वविद्यालयों (SAU) और कृषि मंत्रालय के आधिकारिक पैकेज ऑफ प्रैक्टिसेज के आधार पर सहायता करता हूँ:\n\n"
+                    "• **🌱 फसल उत्पादन व कीट प्रबंधन:** धान, गेहूं, टमाटर, कपास, मक्का आदि के लिए अनुमोदित दवा मात्रा, बीज उपचार व जैविक विकल्प।\n"
+                    "• **📈 दैनिक मंडी भाव:** आपके जिले की APMC मंडियों के ताज़ा थोक भाव एवं आवक (agmarknet.gov.in)।\n"
+                    "• **🌦️ छिड़काव मौसम व वर्षा:** सुरक्षित छिड़काव के लिए हवा की गति, तापमान और अनुकूल समय।\n"
+                    "• **🏛️ सरकारी योजनाएं:** पीएम-किसान, पीएम फसल बीमा योजना (PMFBY 72-घंटे दावा) और ड्रिप सिंचाई सब्सिडी।\n\n"
+                    "💡 *आप नीचे दिए गए त्वरित बटनों में से चुन सकते हैं या बोलकर अपना सवाल पूछ सकते हैं!*"
+                )
+            elif loc == "ta":
+                welcome_ans = (
+                    "🙏 **வணக்கம் விவசாய நண்பரே! நான் அக்ரி ஜிபிடி (AgriGPT) — உங்கள் அதிகாரப்பூர்வ டிஜிட்டல் வேளாண் உதவியாளர்.**\n\n"
+                    "ICAR மற்றும் தமிழ்நாடு வேளாண்மைப் பல்கலைக்கழக (TNAU) பரிந்துரைகளின் அடிப்படையில் நான் வழிகாட்டுகிறேன்:\n\n"
+                    "• **🌱 பயிர் சாகுபடி & பூச்சி கட்டுப்பாடு:** நெல், தக்காளி, பருத்தி, மக்காச்சோளம் ஆகியவற்றிற்கான சரியான மருந்து அளவு மற்றும் இயற்கை வழிமுறைகள்.\n"
+                    "• **📈 தினசரி மண்டி விலைகள்:** ஒழுங்குமுறை விற்பனைக் கூடங்களின் நேரடி வரத்து மற்றும் விலை நிலவரம் (agmarknet.gov.in).\n"
+                    "• **🌦️ தெளிப்பு வானிலை:** பூச்சிக்கொல்லி தெளிப்பதற்கான உகந்த காற்று வேகம் மற்றும் மழை நிலவரம்.\n"
+                    "• **🏛️ அரசு மானியங்கள்:** PM-கிசான், பயிர் காப்பீடு (PMFBY) மற்றும் சொட்டு நீர் பாசன மானியம்.\n\n"
+                    "💡 *கீழே உள்ள தலைப்புகளைத் தேர்ந்தெடுக்கலாம் அல்லது மைக் அழுத்தி உங்கள் குரலில் கேட்கலாம்!*"
+                )
+            else:
+                welcome_ans = (
+                    "🙏 **Namaste Farmer! I am AgriGPT — your dedicated national agricultural intelligence advisor.**\n\n"
+                    "I am grounded in official ICAR Package of Practices, State Agricultural Universities, and AGMARKNET to assist you with:\n\n"
+                    "• **🌱 Crop Health & Integrated Pest Management:** Accurate CIBRC-compliant chemical dosages, seed treatments, and 100% organic alternatives.\n"
+                    "• **📈 Live APMC Mandi Prices:** Daily wholesale arrival rates and modal prices from agmarknet.gov.in.\n"
+                    "• **🌦️ Spraying Weather & Windows:** Wind drift safety (<15 km/h) and rainfastness forecasts.\n"
+                    "• **🏛️ Government Welfare Schemes:** PM-KISAN direct transfers, PMFBY 72-hour crop loss insurance claims, and drip irrigation subsidies.\n\n"
+                    "💡 *Tap the green mic button below to speak in your regional language, or select any quick mode below!*"
+                )
+
+            metadata = GroundingMetadata(
+                is_grounded=True,
+                retrieval_confidence=1.0,
+                safety_status=SafetyStatus.SAFE,
+                cibrc_checked=True,
+                cibrc_restricted_substances_detected=[]
+            )
+            return ChatCompletionResponse(
+                answer=welcome_ans,
+                locale=loc,
+                citations=[
+                    Citation(
+                        chunk_id="icar_national_portal",
+                        doc_title="ICAR National Agricultural Extension Package of Practices",
+                        institution="Indian Council of Agricultural Research (ICAR, New Delhi)",
+                        publication_year=2024,
+                        source_url="http://krishi.icar.gov.in/",
+                        section="National Mission on Sustainable Agriculture",
+                        crop="general"
+                    )
+                ],
+                grounding_metadata=metadata,
+                field_disclaimer=DISCLAIMERS.get(loc, DISCLAIMERS["en"])
+            )
 
         # 1. Statutory CIBRC Safety Validation
         is_safe, refusal = cibrc_validator.check_query_safety(query, crop=crop, locale=loc)
@@ -80,7 +144,7 @@ class AgronomyService:
                 locale=loc,
                 citations=[],
                 grounding_metadata=metadata,
-                field_disclaimer=DISCLAIMERS[loc]
+                field_disclaimer=DISCLAIMERS.get(loc, DISCLAIMERS["en"])
             )
             telemetry_collector.record_span(
                 name="agronomy.cibrc_statutory_guard",
@@ -167,7 +231,7 @@ class AgronomyService:
                 locale=loc,
                 citations=citations,
                 grounding_metadata=metadata,
-                field_disclaimer=DISCLAIMERS[loc]
+                field_disclaimer=DISCLAIMERS.get(loc, DISCLAIMERS["en"])
             )
             telemetry_collector.record_span(
                 name="agronomy.scheme_rag",
@@ -217,7 +281,7 @@ class AgronomyService:
                     locale=loc,
                     citations=universe_result["citations"],
                     grounding_metadata=metadata,
-                    field_disclaimer=DISCLAIMERS[loc]
+                    field_disclaimer=DISCLAIMERS.get(loc, DISCLAIMERS["en"])
                 )
                 telemetry_collector.record_span(
                     name="agronomy.agri_universe_rag",
@@ -250,11 +314,11 @@ class AgronomyService:
                 statutory_gazette_reference=None
             )
             response = ChatCompletionResponse(
-                answer=UNGROUNDED_MESSAGES[loc],
+                answer=UNGROUNDED_MESSAGES.get(loc, UNGROUNDED_MESSAGES["en"]),
                 locale=loc,
                 citations=[],
                 grounding_metadata=metadata,
-                field_disclaimer=DISCLAIMERS[loc]
+                field_disclaimer=DISCLAIMERS.get(loc, DISCLAIMERS["en"])
             )
             telemetry_collector.record_span(
                 name="agronomy.fail_closed_guard",

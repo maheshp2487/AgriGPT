@@ -13,7 +13,6 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { LegalModal, LegalTab } from './LegalModal';
-import { ArchitectureModal } from './ArchitectureModal';
 import { AiConfigModal } from './AiConfigModal';
 
 interface FooterProps {
@@ -24,7 +23,6 @@ export function Footer({ onNavigateTab }: FooterProps) {
   const { t } = useLanguage();
   const [legalModalOpen, setLegalModalOpen] = useState(false);
   const [legalActiveTab, setLegalActiveTab] = useState<LegalTab>('about');
-  const [archModalOpen, setArchModalOpen] = useState(false);
   const [aiConfigModalOpen, setAiConfigModalOpen] = useState(false);
 
   const openLegal = (tab: LegalTab) => {
@@ -134,14 +132,6 @@ export function Footer({ onNavigateTab }: FooterProps) {
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-slate-700 font-bold">
               <button
                 type="button"
-                onClick={() => setArchModalOpen(true)}
-                className="hover:text-[#2e7d32] transition-colors"
-              >
-                Architecture Blueprint
-              </button>
-              <span className="text-slate-300">•</span>
-              <button
-                type="button"
                 onClick={() => setAiConfigModalOpen(true)}
                 className="hover:text-[#2e7d32] transition-colors"
               >
@@ -198,12 +188,6 @@ export function Footer({ onNavigateTab }: FooterProps) {
         activeTab={legalActiveTab}
         onClose={() => setLegalModalOpen(false)}
         onTabChange={(tab) => setLegalActiveTab(tab)}
-      />
-
-      {/* Architecture Blueprint Modal */}
-      <ArchitectureModal
-        isOpen={archModalOpen}
-        onClose={() => setArchModalOpen(false)}
       />
 
       {/* AI Model Configuration Modal */}
